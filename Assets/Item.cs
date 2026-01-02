@@ -26,7 +26,7 @@ public class Item : MonoBehaviour
 
     public Sprite sprite;
 
-    [Tooltip("IMPORTANT:\n0: Damage (float)\n1: Bullet Speed (float)\n2: Shots (Int)\n3: Inaccuracy (float)\n4: Max Ammo (Int)\n5: Max Reload (Int) (Timer)\n6: FireSpeed (Int) (Timer)\n7: Homing Power (float)\n8: Bounces (Int)\n9: Player Max Health (float)")]
+    [Tooltip("IMPORTANT:\n0: Damage (float)\n1: Bullet Speed (float)\n2: Shots (Int)\n3: Inaccuracy (float)\n4: Max Ammo (Int)\n5: Max Reload (Int) (Timer)\n6: FireSpeed (Int) (Timer)\n7: Homing Power (float)\n8: Bounces (Int)\n9: Player Max Health (float)\n10: Move Speed (float)\n11: Dash Cooldown (Int) (Timer)\n12: Explosion Level (float)")]
     public Effect[] effects;
 
    // public GameObject Interactible;
@@ -43,15 +43,28 @@ public class Item : MonoBehaviour
         price = basePrice;
 
         for(int i = 0; i < PlayerStats.me.Items.Count; i++){
-            if(PlayerStats.me.Items[i] == ID){
-                price += priceInflation;
-            }
+            //if(PlayerStats.me.Items[i] == ID){
+                price += (int)(priceInflation * 0.75f);
+            //}
         }
+        price += (int)(priceInflation * 0.1f * PlayerStats.me.Level);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(TemplatesRooms.me.player != null && Vector3.Distance(transform.position, TemplatesRooms.me.player.transform.position) < 3){
+            TemplatesRooms.me.ItemLookingAt = transform;
+            TemplatesRooms.me.LookingAtItem = true;
+            //Interactible.SetActive(true);
+            
+        } else {
+            if(TemplatesRooms.me.ItemLookingAt == transform){
+            TemplatesRooms.me.LookingAtItem = false;
+            }
+            
+        }
+
         if(TemplatesRooms.me.player != null && Vector3.Distance(transform.position, TemplatesRooms.me.player.transform.position) < 2){
             //Interactible.SetActive(true);
             
@@ -76,6 +89,7 @@ public class Item : MonoBehaviour
     }
 
     void Buy(){
+        TemplatesRooms.me.LookingAtItem = false;
         PlayerStats.me.Money -= price;
         PlayerStats.me.Items.Add(ID);
 

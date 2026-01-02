@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 639abf0169bafe84eb9635454a287fa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Wind Up
-  desc: 2x damage, 2x bullet speed, -50% firerate
+  name: Patience
+  desc: 1.5x damage, 1.5x bullet speed, -30% firerate
   ID: 4
   price: 0
   basePrice: 4
@@ -57,15 +57,15 @@ MonoBehaviour:
   - HardCoded: 0
     stat: 0
     ADD: 0
-    MULT: 1
+    MULT: 0.5
   - HardCoded: 0
     stat: 1
     ADD: 0
-    MULT: 1
+    MULT: 0.5
   - HardCoded: 0
     stat: 6
     ADD: 0
-    MULT: 0.5
+    MULT: 0.3
   spr: {fileID: 3425269982833529955}
   text:
   - {fileID: 1607299786526009101}

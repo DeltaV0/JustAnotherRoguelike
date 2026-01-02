@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class RoomSpawner : MonoBehaviour
 {
@@ -61,19 +62,43 @@ public class RoomSpawner : MonoBehaviour
         }*/
         if(!Spawned){
         if(SpawnDir == 1){
-            Instantiate(rt.bottom[Random.Range(0, rt.bottom.Length)], transform.position, transform.rotation);
+            if((transform.position.y / 20) >= 2){
+                Debug.Log("edge");
+                Instantiate(rt.bottom[UnityEngine.Random.Range(0, Math.Clamp(4 - ((int)(transform.position.y / 20) - 2), 1, 4))], transform.position, transform.rotation);
+            } else {
+                Instantiate(rt.bottom[UnityEngine.Random.Range(1, rt.bottom.Length)], transform.position, transform.rotation);
+            }
+            
             //q.transform.parent = TemplatesRooms.me.roomHolder;
             //bdoor
         } else if(SpawnDir == 2){
-            Instantiate(rt.left[Random.Range(0, rt.left.Length)], transform.position, transform.rotation);
+            if((transform.position.x / 20) >= 2){
+                Debug.Log("edge");
+                Instantiate(rt.left[UnityEngine.Random.Range(0, Math.Clamp(4 - ((int)(transform.position.x / 20) - 2), 1, 4))], transform.position, transform.rotation);
+            } else {
+                Instantiate(rt.left[UnityEngine.Random.Range(1, rt.left.Length)], transform.position, transform.rotation);
+            }
+            
+
             //q.transform.parent = TemplatesRooms.me.roomHolder;
             //ldoor
         } else if(SpawnDir == 3){
-            Instantiate(rt.top[Random.Range(0, rt.top.Length)], transform.position, transform.rotation);
+            if((transform.position.y / 20) <= -2){
+                Debug.Log("edge");
+                Instantiate(rt.top[UnityEngine.Random.Range(0, Math.Clamp(4 - ((int)(transform.position.y / 20) + 2), 1, 4))], transform.position, transform.rotation);
+            } else {
+                Instantiate(rt.top[UnityEngine.Random.Range(1, rt.top.Length)], transform.position, transform.rotation);
+            }
+            
             //q.transform.parent = TemplatesRooms.me.roomHolder;
             //tdoor
         } else if(SpawnDir == 4){
-            Instantiate(rt.right[Random.Range(0, rt.right.Length)], transform.position, transform.rotation);
+            if((transform.position.x / 20) <= -2){
+                Debug.Log("edge");
+                Instantiate(rt.right[UnityEngine.Random.Range(0, Math.Clamp(4 - ((int)(transform.position.x / 20) + 2), 1, 4))], transform.position, transform.rotation);
+            } else {
+                Instantiate(rt.right[UnityEngine.Random.Range(1, rt.right.Length)], transform.position, transform.rotation);
+            }
             //q.transform.parent = TemplatesRooms.me.roomHolder;
             //rdoor
         }

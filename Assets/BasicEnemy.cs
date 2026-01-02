@@ -12,6 +12,12 @@ public class BasicEnemy : MonoBehaviour
     public GameObject Coin;
 
     public float moveSpeed;
+
+    public ParticleSystem healparts;
+
+    public AudioSource aud;
+
+    public AudioClip[] audio;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,5 +25,13 @@ public class BasicEnemy : MonoBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         agent.updatePosition = false;
+    }
+
+    public void heal(float h){
+        health += h;
+        healparts.Play();
+        if(health > maxHealth){
+            health = maxHealth;
+        }
     }
 }

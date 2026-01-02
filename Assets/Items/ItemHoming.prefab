@@ -510,7 +510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Homing
-  desc: + 0.01 homing strength, + 50% inaccuracy
+  desc: + 0.01 homing strength, + 50% inaccuracy, -20% damage
   ID: 6
   price: 0
   basePrice: 6
@@ -525,6 +525,10 @@ MonoBehaviour:
     stat: 7
     ADD: 0.01
     MULT: 0
+  - HardCoded: 0
+    stat: 0
+    ADD: 0
+    MULT: -0.2
   spr: {fileID: 3510891665334868532}
   text:
   - {fileID: 1633422973060875495}

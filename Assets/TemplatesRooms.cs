@@ -34,7 +34,13 @@ public class TemplatesRooms : MonoBehaviour
 
     public GameObject spawnRoom;
 
+    public bool shopping;
 
+    public GameObject Shop;
+
+    public bool LookingAtItem;
+
+    public Transform ItemLookingAt;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -46,7 +52,20 @@ public class TemplatesRooms : MonoBehaviour
         //q.transform.parent = roomHolder;
     }
 
+    public void GoShopping(){
+        shopping = true;
+        foreach (Transform child in roomHolder)
+        {
+            Destroy(child.gameObject);
+        }
+        player = null;
+        GameObject q = Instantiate(Shop, transform.position, transform.rotation);
+        q.transform.parent = roomHolder;
+        GoerCalculate.me.Reset();
+    }
+
     public void RemakeRooms(){
+        shopping = false;
         PlayerStats.me.Level++;
         foreach (Transform child in roomHolder)
         {
@@ -75,9 +94,10 @@ public class TemplatesRooms : MonoBehaviour
                 }
                 surface.BuildNavMesh();
                 rooms[0].SpawnPlayer();
-                rooms[rooms.Count - 1].SpawnExit();
-                rooms[rooms.Count - 1].RoomType = 0;
-                ExitLocation = rooms[rooms.Count - 1].transform;
+                int rand = UnityEngine.Random.Range((int)(rooms.Count * 0.75f), rooms.Count - 1);
+                rooms[rand].SpawnExit();
+                rooms[rand].RoomType = 0;
+                ExitLocation = rooms[rand].transform;
                 done = true;
                 GoerCalculate.me.CalcPath();
             }

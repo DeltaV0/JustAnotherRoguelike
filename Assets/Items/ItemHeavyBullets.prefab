@@ -646,21 +646,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Heavy Bullets
-  desc: +50% damage, -25% bullet speed
+  desc: +25% damage, -15% bullet speed, 10% slower reload
   ID: 1
   price: 0
   basePrice: 3
-  priceInflation: 2
+  priceInflation: 3
   sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   effects:
   - HardCoded: 0
     stat: 0
     ADD: 0
-    MULT: 0.5
+    MULT: 0.25
   - HardCoded: 0
     stat: 1
     ADD: 0
-    MULT: -0.25
+    MULT: -0.15
+  - HardCoded: 0
+    stat: 5
+    ADD: 0
+    MULT: 0.1
   spr: {fileID: 7984200390449964287}
   text:
   - {fileID: 7896518695726457763}

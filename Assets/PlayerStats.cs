@@ -14,6 +14,8 @@ public class PlayerStats : MonoBehaviour
 
     public int FireSpeed;
 
+    public int DashCooldown;
+
     public int Money;
 
     //public int MaxDash;
@@ -36,6 +38,8 @@ public class PlayerStats : MonoBehaviour
 
     public int Level;
 
+    public float explosionLevel;
+
     public void ChangeStat(int ID, float add, float mult){
         if(ID == 0){
             Damage = (Damage * mult) + add;
@@ -57,9 +61,13 @@ public class PlayerStats : MonoBehaviour
             bounces = (int)((bounces * mult) + add);
         } else if(ID == 9){
             MaxHealth = (MaxHealth * mult) + add;
-        } //else if(ID == 10){
-          //  MoveSpeed = (MoveSpeed * mult) + add;
-        //}
+        } else if(ID == 10){
+            MoveSpeed = (MoveSpeed * mult) + add;
+        } else if(ID == 11){
+            DashCooldown = (int)((DashCooldown * mult) + add);
+        } else if(ID == 12){
+            explosionLevel = ((explosionLevel * mult) + add);
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

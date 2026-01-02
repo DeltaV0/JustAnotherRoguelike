@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Wall
   - Coin
+  - Shield
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - Player
   - Enemy
   - Wall
-  - 
+  - Money
   - 
   - 
   - 

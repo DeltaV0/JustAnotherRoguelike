@@ -405,8 +405,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 639abf0169bafe84eb9635454a287fa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Quick Shot
-  desc: + 25% bullet speed, + 25% firerate, - 25% damage
+  name: Rapid Fire
+  desc: + 20% bullet speed, + 20% firerate, - 20% damage
   ID: 5
   price: 0
   basePrice: 5
@@ -416,15 +416,15 @@ MonoBehaviour:
   - HardCoded: 0
     stat: 0
     ADD: 0
-    MULT: -0.25
+    MULT: -0.2
   - HardCoded: 0
     stat: 6
     ADD: 0
-    MULT: -0.25
+    MULT: -0.2
   - HardCoded: 0
     stat: 1
     ADD: 0
-    MULT: 0.25
+    MULT: 0.2
   spr: {fileID: 2943880617498677425}
   text:
   - {fileID: 7228115859485966325}

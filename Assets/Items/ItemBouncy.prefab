@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Bouncy Bullets
-  desc: -25% damage, +2 bounces
+  desc: -10% damage, +1 bounces
   ID: 4
   price: 0
   basePrice: 4
@@ -57,10 +57,10 @@ MonoBehaviour:
   - HardCoded: 0
     stat: 0
     ADD: 0
-    MULT: -0.25
+    MULT: -0.1
   - HardCoded: 0
     stat: 8
-    ADD: 2
+    ADD: 1
     MULT: 0
   spr: {fileID: 6761571040458707832}
   text:

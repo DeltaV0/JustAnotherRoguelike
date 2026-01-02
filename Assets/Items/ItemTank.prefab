@@ -646,7 +646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Tank
-  desc: +25% max health
+  desc: +25% max health, -5% speed
   ID: 4
   price: 0
   basePrice: 4
@@ -657,6 +657,10 @@ MonoBehaviour:
     stat: 9
     ADD: 0
     MULT: 0.25
+  - HardCoded: 0
+    stat: 10
+    ADD: 0
+    MULT: -0.05
   spr: {fileID: 82449609441484247}
   text:
   - {fileID: 1382627199824410960}

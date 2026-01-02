@@ -21,6 +21,14 @@ public class Bullet : MonoBehaviour
     private bool bnce;
 
     public GameObject Owner;
+
+    public ParticleSystem trail;
+
+    public AudioSource aud;
+
+    public AudioClip[] audio;
+
+    public GameObject explosionPF;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -33,6 +41,11 @@ public class Bullet : MonoBehaviour
     void FixedUpdate()
     {
         if(bnce){
+            if(PlayerStats.me.explosionLevel > 0 && player){
+                SpawnExplosion();
+            }
+            aud.pitch = Random.Range(0.8f, 1.2f);
+            aud.PlayOneShot(audio[0], 0.1f);
             bounces--;
             bnce = false;
         }
@@ -54,6 +67,9 @@ public class Bullet : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, aimAngleP);
         rb.angularVelocity = 0;
         if(Owner == null){
+            trail.Stop();
+                    trail.transform.parent = null;
+                    trail.transform.localScale = new Vector3(1, 1, 1);
             Destroy(gameObject);
         }
         if(player){
@@ -61,7 +77,9 @@ public class Bullet : MonoBehaviour
                 rb.linearVelocity = Vector2.LerpUnclamped(rb.linearVelocity, ((Vector2)(transform.position) - (Vector2)(FindNearestEnemy().transform.position)).normalized * initVel * -1, HomingStrength);
             }
         } else {
+            if(TemplatesRooms.me.player != null){
         rb.linearVelocity = Vector2.LerpUnclamped(rb.linearVelocity, ((Vector2)(transform.position) - (Vector2)(TemplatesRooms.me.player.transform.position)).normalized * initVel * -1, HomingStrength);
+            }
         }
         
     }
@@ -77,6 +95,21 @@ public class Bullet : MonoBehaviour
             }
         }
         return selected;
+
+        
+    }
+
+    void OnDestroy(){
+            if(PlayerStats.me.explosionLevel > 0 && player){
+                SpawnExplosion();
+            }
+    }
+
+    public void SpawnExplosion(){
+        GameObject g = Instantiate(explosionPF, transform.position, Quaternion.identity);
+        g.GetComponent<Explosion>().Power = damage;
+        g.GetComponent<Explosion>().Radius = damage * 0.1f + PlayerStats.me.explosionLevel;
+        g.GetComponent<Explosion>().Boom();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -84,7 +117,11 @@ public class Bullet : MonoBehaviour
         InvFrames = 1;
         if (collision.collider.CompareTag("Wall") || collision.collider.CompareTag("Respawn") || collision.collider.CompareTag("Coin"))
         {
+            
             if(bounces <= 0){
+                trail.Stop();
+                    trail.transform.parent = null;
+                    trail.transform.localScale = new Vector3(1, 1, 1);
                 Destroy(gameObject);
             } else {
                 
@@ -96,12 +133,33 @@ public class Bullet : MonoBehaviour
         }
         else if (player)
         {
+            
             if (collision.collider.CompareTag("Enemy"))
             {
                 collision.transform.root.gameObject.GetComponent<Rigidbody2D>().linearVelocity += gameObject.GetComponent<Rigidbody2D>().linearVelocity * 0.1f;
                 collision.gameObject.GetComponent<EnemyIdentifier>().AI.health -= damage;
+                collision.gameObject.GetComponent<EnemyIdentifier>().AI.aud.PlayOneShot(collision.gameObject.GetComponent<EnemyIdentifier>().AI.audio[1], 0.25f);
                 if(bounces <= 0){
+                    trail.Stop();
+                    trail.transform.parent = null;
+                    trail.transform.localScale = new Vector3(1, 1, 1);
+
                 Destroy(gameObject);
+                } else {
+                bnce = true;
+                rb.linearVelocity = Vector2.Reflect(collision.relativeVelocity.normalized, collision.GetContact(0).normal.normalized) * initVel * -1;
+                InvFrames = 1;
+                }
+            } else if(collision.collider.CompareTag("Shield") && !collision.gameObject.GetComponent<Shield>().player){
+                //collision.transform.root.gameObject.GetComponent<Rigidbody2D>().linearVelocity += gameObject.GetComponent<Rigidbody2D>().linearVelocity * 0.1f;
+                
+                collision.gameObject.GetComponent<Shield>().Hit(damage);
+                if(bounces <= 0){
+                    trail.Stop();
+                    trail.transform.parent = null;
+                    trail.transform.localScale = new Vector3(1, 1, 1);
+
+                    Destroy(gameObject);
                 } else {
                 bnce = true;
                 rb.linearVelocity = Vector2.Reflect(collision.relativeVelocity.normalized, collision.GetContact(0).normal.normalized) * initVel * -1;
@@ -114,8 +172,12 @@ public class Bullet : MonoBehaviour
             {
                 collision.gameObject.GetComponent<Rigidbody2D>().linearVelocity += gameObject.GetComponent<Rigidbody2D>().linearVelocity * 0.1f;
                 collision.gameObject.GetComponent<Player>().health -= damage;
+                collision.gameObject.GetComponent<Player>().aud.PlayOneShot(collision.gameObject.GetComponent<Player>().audio[1], 0.25f);
                 //collision.gameObject.GetComponent<Player>().animator.SetTrigger("Hit");
                 if(bounces <= 0){
+                    trail.Stop();
+                    trail.transform.parent = null;
+                    trail.transform.localScale = new Vector3(1, 1, 1);
                 Destroy(gameObject);
                 } else {
                 bnce = true;

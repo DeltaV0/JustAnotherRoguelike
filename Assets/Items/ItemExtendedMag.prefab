@@ -646,7 +646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Extended Mag
-  desc: 25% slower reload, + 25% ammo
+  desc: 15% slower reload, + 2 ammo
   ID: 4
   price: 0
   basePrice: 3
@@ -655,12 +655,12 @@ MonoBehaviour:
   effects:
   - HardCoded: 0
     stat: 4
-    ADD: 0
-    MULT: 0.25
+    ADD: 2
+    MULT: 0
   - HardCoded: 0
     stat: 5
     ADD: 0
-    MULT: 0.25
+    MULT: 0.15
   spr: {fileID: 1751178752061968996}
   text:
   - {fileID: 8419949270570165709}

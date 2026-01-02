@@ -20,14 +20,32 @@ public class ShootingEnemy : BasicEnemy
     public int AIType;
 
     public int averageMaxShootTimer;
+
+    public int[] AISpeed;
+
+    public float turnspeed;
+
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         AIType = Random.Range(0, 3);
         TemplatesRooms.me.player.enemiesInRoom.Add(this);
-        maxHealth *= Random.Range(0.95f, 1f + (((float)PlayerStats.me.Level - 1f )/ 5f));
-        averageMaxShootTimer = (int)((float)averageMaxShootTimer * Random.Range((1f / 1f + (((float)PlayerStats.me.Level - 1f )/ 5f)), 1.1f));
-        agent.speed *= Random.Range(0.95f, 1f + (((float)PlayerStats.me.Level - 1f )/ 5f));
+        maxHealth *= Random.Range(0.95f, 1f + (((float)PlayerStats.me.Level - 1f )/ 3f));
+        averageMaxShootTimer = (int)((float)averageMaxShootTimer * Random.Range((1f / 1f + (((float)PlayerStats.me.Level - 1f )/ 3f)), 1.1f));
+        agent.speed *= Random.Range(0.95f, 1f + (((float)PlayerStats.me.Level - 1f )/ 3f));
+        
+        if(Random.Range(0, 11) == 0){
+            GameObject bullet = (GameObject)Instantiate(Prefabs.me.additions[0], transform.position, transform.rotation);
+            bullet.transform.GetChild(0).gameObject.GetComponent<Shield>().owner = gameObject;
+        }
+        if(Random.Range(0, 11) == 0){
+            GameObject bullet = (GameObject)Instantiate(Prefabs.me.additions[1], transform.position, transform.rotation);
+            bullet.transform.gameObject.GetComponent<FancyAddon>().owner = gameObject;
+            maxHealth *= 2;
+            averageMaxShootTimer = (int)(averageMaxShootTimer * 0.5f);
+            agent.speed *= 1.5f;
+        }
         health = maxHealth;
     }
 
@@ -35,10 +53,10 @@ public class ShootingEnemy : BasicEnemy
     void Update()
     {   
         if(AItimer <= 0){
-            AItimer = Random.Range(25, 201);
+            AItimer = Random.Range(AISpeed[0], AISpeed[1]);
             AIType = Random.Range(0, 3);
             if(AIType == 1){
-                agent.SetDestination((Vector3)(UnityEngine.Random.insideUnitCircle * 5f ) + room.transform.position);
+                agent.SetDestination(new Vector3(Random.Range(-10f, 10f), Random.Range(-10f, 10f), 0) + room.transform.position);
             }
         }
         healthBar.fillAmount = (float)health / (float)maxHealth;
@@ -48,6 +66,7 @@ public class ShootingEnemy : BasicEnemy
         transform.rotation = Quaternion.Euler(curreul) ;
        
         if(health <= 0){
+            Instantiate(Prefabs.me.enemyDeath[0], transform.position, transform.rotation);
             room.enemyCount--;
             for(int i = 0; i < Random.Range(1, 5); i++){
                 GameObject bullet = (GameObject)Instantiate(Coin, transform.position, transform.rotation);
@@ -56,11 +75,16 @@ public class ShootingEnemy : BasicEnemy
                 bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(Mathf.Cos((bullet.GetComponent<Rigidbody2D>().rotation + 90f) * Mathf.Deg2Rad) * 1f * PlayerStats.me.Damage, Mathf.Sin((bullet.GetComponent<Rigidbody2D>().rotation + 90f) * Mathf.Deg2Rad) * 1f * PlayerStats.me.Damage), ForceMode2D.Impulse);
             }
             TemplatesRooms.me.player.enemiesInRoom.Remove(this);
+            if(TemplatesRooms.me.player.enemiesInRoom.Count == 0){
+                TemplatesRooms.me.player.ammo = PlayerStats.me.MaxAmmo;
+            }
             Destroy(gameObject);
         }
 
         if (timer <= 0)
         {
+            aud.pitch = Random.Range(0.8f, 1.2f);
+            aud.PlayOneShot(audio[0], 0.25f);
             timer = averageMaxShootTimer + Random.Range(-10, 10);
 
             for (int i = 0; i < shots; i++) {
@@ -100,7 +124,7 @@ public class ShootingEnemy : BasicEnemy
         //Vector3 curreul = new Vector3(0, 0, rb.rotation);//Mathf.LerpAngle(transform.rotation.z, aimAngleP, 1f));
 
         //transform.rotation = Quaternion.Euler(curreul) ;
-        rb.angularVelocity = (rb.rotation - (Mathf.LerpAngle(rb.rotation+ 180f, aimAngleP + 180f, 0.1f) - 180f)) * -30f;
+        rb.angularVelocity = (rb.rotation - (Mathf.LerpAngle(rb.rotation+ 180f, aimAngleP + 180f, turnspeed) - 180f)) * -30f;
         //rb.rotation = Mathf.LerpAngle(rb.rotation, aimAngleP, 0.1f);
         
         //agent.nextPosition = transform.position;

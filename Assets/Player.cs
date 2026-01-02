@@ -41,11 +41,16 @@ public class Player : MonoBehaviour
     public Image AmmoCircle;
 
     public List<BasicEnemy> enemiesInRoom;
+
+    public AudioSource aud;
+
+    public AudioClip[] audio;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         stats = PlayerStats.me;
         health = stats.MaxHealth;
+        moveSpeed = stats.MoveSpeed;
         TemplatesRooms.me.player = this;
         currentRoom = TemplatesRooms.me.rooms[0];
     }
@@ -58,6 +63,7 @@ public class Player : MonoBehaviour
 
     void Update(){
         UpdateStats();
+        if(!CameraMover.me.WorldMap){
         Vector2 aimDirectionB = new Vector2(transform.position.x, transform.position.y) - (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
         float aimAngleB = Mathf.Atan2(aimDirectionB.y, aimDirectionB.x) * Mathf.Rad2Deg + 90f;
         transform.eulerAngles = new Vector3(0, 0, aimAngleB);
@@ -67,7 +73,8 @@ public class Player : MonoBehaviour
         }
         if (Input.GetMouseButton(0) && timer <= 0 && ammo > 0 && ReloadTimer <= 0)
         {
-            
+            aud.pitch = Random.Range(0.8f, 1.2f);
+            aud.PlayOneShot(audio[0], 0.25f);
             timer = stats.FireSpeed;
 
             for (int i = 0; i < shots; i++) {
@@ -94,7 +101,7 @@ public class Player : MonoBehaviour
            
         }
         if(Input.GetKeyDown("space") && DashTimer[0] <= 0){
-            DashTimer[0] = 50;
+            DashTimer[0] = stats.DashCooldown;
             DashTimer[1] = 10;
             rb.linearVelocity += moveDir * moveSpeed * 7.5f;
         }
@@ -105,6 +112,7 @@ public class Player : MonoBehaviour
         }
         if(health <= 0){
             Destroy(gameObject);
+        }
         }
     }
 
@@ -134,7 +142,11 @@ public class Player : MonoBehaviour
 		
 		moveDir = new Vector2 (moveX, moveY).normalized;
 		mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-        rb.linearVelocity = rb.linearVelocity = Vector3.Lerp((Vector3)rb.linearVelocity, moveDir * moveSpeed, 0.2f);
+        if(!CameraMover.me.WorldMap){
+            rb.linearVelocity = Vector3.Lerp((Vector3)rb.linearVelocity, moveDir * moveSpeed, 0.2f);
+        } else{ 
+            rb.linearVelocity = Vector3.Lerp((Vector3)rb.linearVelocity, new Vector3(0, 0, 0), 0.2f);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
