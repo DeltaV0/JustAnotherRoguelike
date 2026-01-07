@@ -41,6 +41,8 @@ public class TemplatesRooms : MonoBehaviour
     public bool LookingAtItem;
 
     public Transform ItemLookingAt;
+
+    public List<Item> itemsInWorld;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -53,6 +55,7 @@ public class TemplatesRooms : MonoBehaviour
     }
 
     public void GoShopping(){
+        itemsInWorld.Clear();
         shopping = true;
         foreach (Transform child in roomHolder)
         {
@@ -65,6 +68,7 @@ public class TemplatesRooms : MonoBehaviour
     }
 
     public void RemakeRooms(){
+        itemsInWorld.Clear();
         shopping = false;
         PlayerStats.me.Level++;
         foreach (Transform child in roomHolder)

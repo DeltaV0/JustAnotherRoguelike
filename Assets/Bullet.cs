@@ -44,6 +44,9 @@ public class Bullet : MonoBehaviour
             if(PlayerStats.me.explosionLevel > 0 && player){
                 SpawnExplosion();
             }
+            if(PlayerStats.me.acidLevel > 0 && player){
+                SpawnAcid();
+            }
             aud.pitch = Random.Range(0.8f, 1.2f);
             aud.PlayOneShot(audio[0], 0.1f);
             bounces--;
@@ -103,13 +106,25 @@ public class Bullet : MonoBehaviour
             if(PlayerStats.me.explosionLevel > 0 && player){
                 SpawnExplosion();
             }
+            if(PlayerStats.me.acidLevel > 0 && player){
+                SpawnAcid();
+            }
     }
 
     public void SpawnExplosion(){
-        GameObject g = Instantiate(explosionPF, transform.position, Quaternion.identity);
-        g.GetComponent<Explosion>().Power = damage;
+        GameObject g = Instantiate(Prefabs.me.PlaceableThings[0], transform.position, Quaternion.identity);
+        g.transform.parent = TemplatesRooms.me.roomHolder;
+        g.GetComponent<Explosion>().Power = damage * PlayerStats.me.explosionPower;
         g.GetComponent<Explosion>().Radius = damage * 0.1f + PlayerStats.me.explosionLevel;
         g.GetComponent<Explosion>().Boom();
+    }
+
+    public void SpawnAcid(){
+        GameObject g = Instantiate(Prefabs.me.PlaceableThings[1], transform.position, Quaternion.identity);
+        g.transform.parent = TemplatesRooms.me.roomHolder;
+        g.GetComponent<Acid>().Power = damage * 0.025f;
+        g.GetComponent<Acid>().Radius = damage * 0.1f + PlayerStats.me.acidLevel;
+        g.GetComponent<Acid>().Activate();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -120,7 +135,7 @@ public class Bullet : MonoBehaviour
             
             if(bounces <= 0){
                 trail.Stop();
-                    trail.transform.parent = null;
+                    trail.transform.parent = TemplatesRooms.me.roomHolder;
                     trail.transform.localScale = new Vector3(1, 1, 1);
                 Destroy(gameObject);
             } else {
@@ -141,7 +156,7 @@ public class Bullet : MonoBehaviour
                 collision.gameObject.GetComponent<EnemyIdentifier>().AI.aud.PlayOneShot(collision.gameObject.GetComponent<EnemyIdentifier>().AI.audio[1], 0.25f);
                 if(bounces <= 0){
                     trail.Stop();
-                    trail.transform.parent = null;
+                    trail.transform.parent = TemplatesRooms.me.roomHolder;
                     trail.transform.localScale = new Vector3(1, 1, 1);
 
                 Destroy(gameObject);
@@ -156,7 +171,7 @@ public class Bullet : MonoBehaviour
                 collision.gameObject.GetComponent<Shield>().Hit(damage);
                 if(bounces <= 0){
                     trail.Stop();
-                    trail.transform.parent = null;
+                    trail.transform.parent = TemplatesRooms.me.roomHolder;
                     trail.transform.localScale = new Vector3(1, 1, 1);
 
                     Destroy(gameObject);
@@ -171,12 +186,12 @@ public class Bullet : MonoBehaviour
             if (collision.collider.CompareTag("Player"))
             {
                 collision.gameObject.GetComponent<Rigidbody2D>().linearVelocity += gameObject.GetComponent<Rigidbody2D>().linearVelocity * 0.1f;
-                collision.gameObject.GetComponent<Player>().health -= damage;
+                collision.gameObject.GetComponent<Player>().Hurt(damage);
                 collision.gameObject.GetComponent<Player>().aud.PlayOneShot(collision.gameObject.GetComponent<Player>().audio[1], 0.25f);
                 //collision.gameObject.GetComponent<Player>().animator.SetTrigger("Hit");
                 if(bounces <= 0){
                     trail.Stop();
-                    trail.transform.parent = null;
+                    trail.transform.parent = TemplatesRooms.me.roomHolder;
                     trail.transform.localScale = new Vector3(1, 1, 1);
                 Destroy(gameObject);
                 } else {

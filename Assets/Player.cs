@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 //using TMPro;
 
 public class Player : MonoBehaviour
@@ -45,6 +46,9 @@ public class Player : MonoBehaviour
     public AudioSource aud;
 
     public AudioClip[] audio;
+
+    public Image Black;
+    public Image ImpactFrame;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -64,9 +68,7 @@ public class Player : MonoBehaviour
     void Update(){
         UpdateStats();
         if(!CameraMover.me.WorldMap){
-        Vector2 aimDirectionB = new Vector2(transform.position.x, transform.position.y) - (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        float aimAngleB = Mathf.Atan2(aimDirectionB.y, aimDirectionB.x) * Mathf.Rad2Deg + 90f;
-        transform.eulerAngles = new Vector3(0, 0, aimAngleB);
+        
         if(ammo <= 0){
             ammo = stats.MaxAmmo;
             ReloadTimer = stats.MaxReload;
@@ -74,7 +76,7 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButton(0) && timer <= 0 && ammo > 0 && ReloadTimer <= 0)
         {
             aud.pitch = Random.Range(0.8f, 1.2f);
-            aud.PlayOneShot(audio[0], 0.25f);
+            aud.PlayOneShot(audio[0], 0.3f);
             timer = stats.FireSpeed;
 
             for (int i = 0; i < shots; i++) {
@@ -110,15 +112,47 @@ public class Player : MonoBehaviour
         } else {
             collider.excludeLayers = LayerMask.GetMask();
         }
-        if(health <= 0){
-            Destroy(gameObject);
+        
         }
+    }
+
+    public void Hurt(float d){
+        health -= d;
+        StartCoroutine(ouch());
+        
+
+    }
+
+    IEnumerator ouch(){
+        Time.timeScale = 0;
+       // Black.color = new Color(1, 1, 1, 1);
+        ImpactFrame.color = new Color(1, 0.25f, 0.25f, 1);
+        yield return new WaitForSecondsRealtime(0.125f);
+        ImpactFrame.color = new Color(1, 0.25f, 0.25f, 0);
+        //Black.color = new Color(0, 0, 0, 0);
+        Time.timeScale = 1;
+    }
+
+    IEnumerator Death(){
+        Time.timeScale = 0.1f;
+        ImpactFrame.color = new Color(1, 0.25f, 0.25f, 1);
+        for(int i = 0; i < 10; i++){
+            Black.color = new Color(0, 0, 0, ((float)i / 10));
+            yield return new WaitForSecondsRealtime(0.1f);
         }
+        ImpactFrame.color = new Color(1, 0.25f, 0.25f, 0);
+        Time.timeScale = 1;
+        SceneManager.LoadSceneAsync("Death");
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(health <= 0){
+            StartCoroutine(Death());
+            Time.timeScale = 0;
+            //Destroy(gameObject);
+        }
         //Debug.Log((float)(ammo / stats.MaxAmmo));
         if(ReloadTimer <= 0){
         AmmoCircle.fillAmount = Mathf.Lerp(AmmoCircle.fillAmount, (float)((float)ammo / (float)stats.MaxAmmo), 0.1f);
@@ -143,6 +177,9 @@ public class Player : MonoBehaviour
 		moveDir = new Vector2 (moveX, moveY).normalized;
 		mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
         if(!CameraMover.me.WorldMap){
+            Vector2 aimDirectionB = new Vector2(transform.position.x, transform.position.y) - (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            float aimAngleB = Mathf.Atan2(aimDirectionB.y, aimDirectionB.x) * Mathf.Rad2Deg + 90f;
+            transform.eulerAngles = new Vector3(0, 0, aimAngleB);
             rb.linearVelocity = Vector3.Lerp((Vector3)rb.linearVelocity, moveDir * moveSpeed, 0.2f);
         } else{ 
             rb.linearVelocity = Vector3.Lerp((Vector3)rb.linearVelocity, new Vector3(0, 0, 0), 0.2f);

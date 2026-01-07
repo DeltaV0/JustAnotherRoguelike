@@ -39,6 +39,9 @@ public class PlayerStats : MonoBehaviour
     public int Level;
 
     public float explosionLevel;
+    public float explosionPower;
+
+    public float acidLevel;
 
     public void ChangeStat(int ID, float add, float mult){
         if(ID == 0){
@@ -67,6 +70,10 @@ public class PlayerStats : MonoBehaviour
             DashCooldown = (int)((DashCooldown * mult) + add);
         } else if(ID == 12){
             explosionLevel = ((explosionLevel * mult) + add);
+        } else if(ID == 13){
+            acidLevel = ((acidLevel * mult) + add);
+        } else if(ID == 14){
+            explosionPower = ((explosionPower * mult) + add);
         }
     }
 

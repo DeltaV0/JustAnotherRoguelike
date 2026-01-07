@@ -179,10 +179,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26.58
+  m_fontSize: 44.75
   m_fontSizeBase: 26.58
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -374,16 +374,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: High Explosive
-  desc: '- 25% damage, bullet speed, and firerate, +1 explosion radius'
-  ID: 4
+  desc: '- 25% damage, bullet speed, and firerate\nBullets Explode on Impace'
+  ID: 3
   price: 0
   basePrice: 4
   priceInflation: 5
   sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  Requirement: 0
+  DisableOnPurchase: 3
+  unique: 1
   effects:
   - HardCoded: 0
     stat: 12
-    ADD: 1
+    ADD: 1.5
     MULT: 0
   - HardCoded: 0
     stat: 0
@@ -563,7 +566,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8787563120551427756}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -572,7 +575,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -75}
+  m_AnchoredPosition: {x: 0, y: -90}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5654170303582608787

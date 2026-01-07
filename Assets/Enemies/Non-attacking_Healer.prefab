@@ -615,13 +615,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 3258664860484997770}
-  health: 10
-  maxHealth: 10
+  health: 8
+  maxHealth: 8
   agent: {fileID: 4116966289151206077}
   room: {fileID: 0}
   Coin: {fileID: 7569131320396160966, guid: 3525ec3a3fc422a4590b407842c82426, type: 3}
   moveSpeed: 0
   healparts: {fileID: 3819848517830414975}
+  aud: {fileID: 8868948488782803216}
+  audio:
+  - {fileID: 8300000, guid: 237cd34abb8f87046aeb17dc4ef7e25f, type: 3}
+  - {fileID: 8300000, guid: 83cc074a249e2fb409ecbb3d2758fd1a, type: 3}
   maxHealTimer: 250
   healthBar: {fileID: 8957206686486725768}
   healtimer: 0
@@ -630,10 +634,6 @@ MonoBehaviour:
   AIType: 0
   turnspeed: 0.05
   parts: {fileID: 8777705969481449000}
-  aud: {fileID: 8868948488782803216}
-  audio:
-  - {fileID: 8300000, guid: 237cd34abb8f87046aeb17dc4ef7e25f, type: 3}
-  - {fileID: 8300000, guid: 83cc074a249e2fb409ecbb3d2758fd1a, type: 3}
 --- !u!1 &7460072882631494170
 GameObject:
   m_ObjectHideFlags: 0

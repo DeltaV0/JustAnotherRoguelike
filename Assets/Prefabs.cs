@@ -12,6 +12,8 @@ public class Prefabs : MonoBehaviour
 
     public GameObject[] All;
 
+    public GameObject[] ChinaEnemies;
+
     public GameObject[] Items;
 
     public GameObject[] enemyDeath;
@@ -21,6 +23,10 @@ public class Prefabs : MonoBehaviour
     public AudioSource aud;
 
     public AudioClip[] audioClips;
+
+    public GameObject[] PlaceableThings;
+
+    public GameObject[] Misc;
 
     void Start(){
         me = this;

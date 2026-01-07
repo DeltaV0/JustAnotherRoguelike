@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System;
 
 public class Item : MonoBehaviour
 {
@@ -26,7 +27,12 @@ public class Item : MonoBehaviour
 
     public Sprite sprite;
 
-    [Tooltip("IMPORTANT:\n0: Damage (float)\n1: Bullet Speed (float)\n2: Shots (Int)\n3: Inaccuracy (float)\n4: Max Ammo (Int)\n5: Max Reload (Int) (Timer)\n6: FireSpeed (Int) (Timer)\n7: Homing Power (float)\n8: Bounces (Int)\n9: Player Max Health (float)\n10: Move Speed (float)\n11: Dash Cooldown (Int) (Timer)\n12: Explosion Level (float)")]
+    public int Requirement;
+    public int DisableOnPurchase;
+
+    public bool unique;
+
+    [Tooltip("IMPORTANT:\n0: Damage (float)\n1: Bullet Speed (float)\n2: Shots (Int)\n3: Inaccuracy (float)\n4: Max Ammo (Int)\n5: Max Reload (Int) (Timer)\n6: FireSpeed (Int) (Timer)\n7: Homing Power (float)\n8: Bounces (Int)\n9: Player Max Health (float)\n10: Move Speed (float)\n11: Dash Cooldown (Int) (Timer)\n12: Explosion Level (float)\n13: Acid Level (float)\n14: Explosion Power (float)")]
     public Effect[] effects;
 
    // public GameObject Interactible;
@@ -35,9 +41,12 @@ public class Item : MonoBehaviour
 
     public TMP_Text[] text;
 
+    //private bool Correct;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+       // Correct = false;
         spr.sprite = sprite;
 
         price = basePrice;
@@ -48,6 +57,19 @@ public class Item : MonoBehaviour
             //}
         }
         price += (int)(priceInflation * 0.1f * PlayerStats.me.Level);
+        if((unique && TemplatesRooms.me.itemsInWorld.Contains(this))){
+            GameObject e = Instantiate(Prefabs.me.Misc[0], transform.position, Quaternion.identity);
+            e.transform.parent = TemplatesRooms.me.roomHolder;
+            Destroy(gameObject);
+        }
+        if((Requirement == 0 || PlayerStats.me.Items.Contains(Requirement)) && (DisableOnPurchase == 0 || !PlayerStats.me.Items.Contains(DisableOnPurchase)) ){
+            
+        } else {
+            GameObject e = Instantiate(Prefabs.me.Misc[0], transform.position, Quaternion.identity);
+            e.transform.parent = TemplatesRooms.me.roomHolder;
+            Destroy(gameObject);
+        }
+        TemplatesRooms.me.itemsInWorld.Add(this);
     }
 
     // Update is called once per frame
@@ -89,6 +111,7 @@ public class Item : MonoBehaviour
     }
 
     void Buy(){
+        TemplatesRooms.me.itemsInWorld.Remove(this);
         TemplatesRooms.me.LookingAtItem = false;
         PlayerStats.me.Money -= price;
         PlayerStats.me.Items.Add(ID);
