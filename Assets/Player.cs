@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
         health = stats.MaxHealth;
         moveSpeed = stats.MoveSpeed;
         TemplatesRooms.me.player = this;
-        currentRoom = TemplatesRooms.me.rooms[0];
+        currentRoom = Generator.me.Rooms[0];
     }
 
     public void UpdateStats(){

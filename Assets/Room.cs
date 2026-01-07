@@ -31,6 +31,8 @@ public class Room : MonoBehaviour
 
     public bool Visited;
 
+    public GameObject[] Walls;
+
    // public Color[] Colors;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

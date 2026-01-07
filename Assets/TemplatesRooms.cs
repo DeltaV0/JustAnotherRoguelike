@@ -49,12 +49,13 @@ public class TemplatesRooms : MonoBehaviour
         Timer = 50;
         done = false;
         me = this;
-        Instantiate(spawnRoom, transform.position, transform.rotation);
+        //Instantiate(spawnRoom, transform.position, transform.rotation);
         PlayerStats.me.Level = 1;
         //q.transform.parent = roomHolder;
     }
 
     public void GoShopping(){
+        transform.position = new Vector3(0, 0, 0);
         itemsInWorld.Clear();
         shopping = true;
         foreach (Transform child in roomHolder)
@@ -71,17 +72,17 @@ public class TemplatesRooms : MonoBehaviour
         itemsInWorld.Clear();
         shopping = false;
         PlayerStats.me.Level++;
-        foreach (Transform child in roomHolder)
-        {
-            Destroy(child.gameObject);
-        }
+        //foreach (Transform child in roomHolder)
+        //{
+           // Destroy(child.gameObject);
+        //}
         GoerCalculate.me.Reset();
         ExitLocation = null;
         player = null;
         Timer = 50;
         done = false;
         rooms.Clear();
-        Instantiate(spawnRoom, transform.position, transform.rotation);
+        //Instantiate(spawnRoom, transform.position, transform.rotation);
         //q.transform.parent = roomHolder;
         
     }
@@ -89,7 +90,7 @@ public class TemplatesRooms : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(Timer > 0){
+        /*if(Timer > 0){
             Timer--;
         } else {
             if(!done){
@@ -106,6 +107,6 @@ public class TemplatesRooms : MonoBehaviour
                 GoerCalculate.me.CalcPath();
             }
             
-        }
+        }*/
     }
 }

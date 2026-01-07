@@ -66,9 +66,9 @@ public class CameraMover : MonoBehaviour
 
     public float GetFarthestRoom(){
         float q = 0;
-        for(int i = 0; i < TemplatesRooms.me.rooms.Count; i++){
-            if(Vector3.Distance(TemplatesRooms.me.rooms[i].transform.position, TemplatesRooms.me.rooms[0].transform.position) > q){
-                q = Vector3.Distance(TemplatesRooms.me.rooms[i].transform.position, TemplatesRooms.me.rooms[0].transform.position);
+        for(int i = 0; i < Generator.me.Rooms.Count; i++){
+            if(Vector3.Distance(Generator.me.Rooms[i].transform.position, Generator.me.Rooms[0].transform.position) > q){
+                q = Vector3.Distance(Generator.me.Rooms[i].transform.position, Generator.me.Rooms[0].transform.position);
             }
         }
         return q;

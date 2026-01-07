@@ -18,7 +18,7 @@ public class Exit : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other){
         if(other.CompareTag("Player")){
             if(ShopExit){
-                TemplatesRooms.me.RemakeRooms();
+                Generator.me.RemakeRooms();
             } else {
                 TemplatesRooms.me.GoShopping();
             }
