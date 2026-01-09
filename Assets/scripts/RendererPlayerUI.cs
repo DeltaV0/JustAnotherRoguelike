@@ -18,7 +18,7 @@ public class RendererPlayerUI : MonoBehaviour
     {
         if(TemplatesRooms.me.player != null){
         textMoney.text = stats.Money + " Pesos";
-        Health.text = (Mathf.Round(TemplatesRooms.me.player.health * 10f) / 10f) + "/" +( Mathf.Round(PlayerStats.me.MaxHealth * 10f) / 10f);
+        Health.text = (Mathf.Round(TemplatesRooms.me.player.health * 10f) / 10f) + "/" +( Mathf.Round(PlayerStats.me.MaxHealth * 10f) / 10f) + " Health";
         } else {
             textMoney.text = "";
             Health.text = "";

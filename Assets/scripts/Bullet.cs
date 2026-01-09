@@ -41,6 +41,7 @@ public class Bullet : MonoBehaviour
     void FixedUpdate()
     {
         if(bnce){
+            ColParts();
             if(PlayerStats.me.explosionLevel > 0 && player){
                 SpawnExplosion();
             }
@@ -102,12 +103,15 @@ public class Bullet : MonoBehaviour
         
     }
 
-    void OnDestroy(){
+    void OnDisable(){
             if(PlayerStats.me.explosionLevel > 0 && player){
                 SpawnExplosion();
             }
             if(PlayerStats.me.acidLevel > 0 && player){
                 SpawnAcid();
+            }
+            if(Owner != null){
+            ColParts();
             }
     }
 
@@ -122,9 +126,14 @@ public class Bullet : MonoBehaviour
     public void SpawnAcid(){
         GameObject g = Instantiate(Prefabs.me.PlaceableThings[1], transform.position, Quaternion.identity);
         g.transform.parent = TemplatesRooms.me.roomHolder;
-        g.GetComponent<Acid>().Power = damage * 0.025f;
+        g.GetComponent<Acid>().Power = damage * 0.25f;
         g.GetComponent<Acid>().Radius = damage * 0.1f + PlayerStats.me.acidLevel;
         g.GetComponent<Acid>().Activate();
+    }
+
+    public void ColParts(){
+        GameObject g = Instantiate(Prefabs.me.Misc[2], transform.position, transform.rotation);
+        g.transform.parent = TemplatesRooms.me.roomHolder;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -154,6 +163,8 @@ public class Bullet : MonoBehaviour
                 collision.transform.root.gameObject.GetComponent<Rigidbody2D>().linearVelocity += gameObject.GetComponent<Rigidbody2D>().linearVelocity * 0.1f;
                 collision.gameObject.GetComponent<EnemyIdentifier>().AI.health -= damage;
                 collision.gameObject.GetComponent<EnemyIdentifier>().AI.aud.PlayOneShot(collision.gameObject.GetComponent<EnemyIdentifier>().AI.audio[1], 0.25f);
+                GameObject a = Instantiate(Prefabs.me.Misc[3], collision.transform.position, Quaternion.identity);
+                a.GetComponent<HealthChangeText>().Activate(-1 * damage);
                 if(bounces <= 0){
                     trail.Stop();
                     trail.transform.parent = TemplatesRooms.me.roomHolder;

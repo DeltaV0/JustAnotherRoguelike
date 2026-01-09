@@ -25,7 +25,7 @@ public class ShootingEnemy : BasicEnemy
 
     public float turnspeed;
 
-    
+    public bool CanSeePlayer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -35,18 +35,36 @@ public class ShootingEnemy : BasicEnemy
         averageMaxShootTimer = (int)((float)averageMaxShootTimer * Random.Range((1f / 1f + (((float)PlayerStats.me.Level - 1f )/ 3f)), 1.1f));
         agent.speed *= Random.Range(0.95f, 1f + (((float)PlayerStats.me.Level - 1f )/ 3f));
         
-        if(Random.Range(0, 11) == 0){
+        if(Random.Range(0, 11) == 0 && PlayerStats.me.Level > 1){
             GameObject bullet = (GameObject)Instantiate(Prefabs.me.additions[0], transform.position, transform.rotation);
             bullet.transform.GetChild(0).gameObject.GetComponent<Shield>().owner = gameObject;
+            cost += (int)(cost * 0.25f);
         }
-        if(Random.Range(0, 11) == 0){
+        if(Random.Range(0, 13) == 0 && PlayerStats.me.Level > 2){
             GameObject bullet = (GameObject)Instantiate(Prefabs.me.additions[1], transform.position, transform.rotation);
             bullet.transform.gameObject.GetComponent<FancyAddon>().owner = gameObject;
             maxHealth *= 2;
             averageMaxShootTimer = (int)(averageMaxShootTimer * 0.5f);
             agent.speed *= 1.5f;
+            cost += (int)(cost * 0.5f);
         }
         health = maxHealth;
+        if(room.budget - cost < 0){
+            if(room.budget > 0){
+                TemplatesRooms.me.player.enemiesInRoom.Remove(this);
+                GameObject e = Instantiate(Prefabs.me.Misc[1], transform.position, Quaternion.identity);
+                e.transform.GetComponent<ItemSpawner>().room = room;
+                Destroy(gameObject);
+            } else {
+                TemplatesRooms.me.player.enemiesInRoom.Remove(this);
+                Destroy(gameObject);
+            }
+            
+        } else {
+            room.enemyCount++;
+            room.budget -= cost;
+        }
+        
     }
 
     // Update is called once per frame
@@ -99,7 +117,7 @@ public class ShootingEnemy : BasicEnemy
 
             bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(Mathf.Cos((bullet.GetComponent<Rigidbody2D>().rotation + 90f) * Mathf.Deg2Rad) * fireForce, Mathf.Sin((bullet.GetComponent<Rigidbody2D>().rotation + 90f) * Mathf.Deg2Rad) * fireForce), ForceMode2D.Impulse);
             bullet.GetComponent<Bullet>().player = false;
-            bullet.GetComponent<Bullet>().damage = 1;
+            //bullet.GetComponent<Bullet>().damage = 1;
             bullet.GetComponent<Bullet>().Owner = gameObject;
             //bullet.GetComponent<Bullet>().flaming = burningBullets;
             //bullet.GetComponent<Bullet>().enemytype = gameObject;
@@ -110,25 +128,35 @@ public class ShootingEnemy : BasicEnemy
     }
 
     void FixedUpdate(){
-        Vector3 aimDirectionP = new Vector3(transform.root.position.x, transform.root.position.y, 0) - TemplatesRooms.me.player.transform.position - (Vector3)(TemplatesRooms.me.player.rb.linearVelocity * 0.75f * (Vector3.Distance(transform.position, TemplatesRooms.me.player.transform.position) * 0.1f) );
-
-        float aimAngleP = Mathf.Atan2(aimDirectionP.y, aimDirectionP.x) * Mathf.Rad2Deg + 90f;
-
         if(AIType == 0){
         agent.SetDestination(TemplatesRooms.me.player.transform.position);
         } else if(AIType == 2){
             agent.SetDestination(((TemplatesRooms.me.player.transform.position - room.transform.position) * -1) + room.transform.position);
         }
+        UnityEngine.AI.NavMeshHit hit;
+        CanSeePlayer = agent.Raycast(TemplatesRooms.me.player.transform.position, out hit);
+        Vector3 aimDirectionP = Vector3.zero;
+        if(!CanSeePlayer){
+            aimDirectionP = new Vector3(transform.root.position.x, transform.root.position.y, 0) - TemplatesRooms.me.player.transform.position - (Vector3)(TemplatesRooms.me.player.rb.linearVelocity * 0.75f * (Vector3.Distance(transform.position, TemplatesRooms.me.player.transform.position) * 0.1f) );
+
+        } else {
+            Debug.Log("blind");
+            aimDirectionP = new Vector3(transform.root.position.x, transform.root.position.y, 0) - (Vector3)agent.path.corners[1];
+
+        }
+        float aimAngleP = Mathf.Atan2(aimDirectionP.y, aimDirectionP.x) * Mathf.Rad2Deg + 90f;
+        rb.angularVelocity = (rb.rotation - (Mathf.LerpAngle(rb.rotation+ 180f, aimAngleP + 180f, turnspeed) - 180f)) * -30f;
+        
         //Debug.Log(transform.rotation.z + ", " + aimAngleP + ", " + Mathf.LerpAngle(transform.rotation.z, aimAngleP, 0.5f));
 
         //Vector3 curreul = new Vector3(0, 0, rb.rotation);//Mathf.LerpAngle(transform.rotation.z, aimAngleP, 1f));
 
         //transform.rotation = Quaternion.Euler(curreul) ;
-        rb.angularVelocity = (rb.rotation - (Mathf.LerpAngle(rb.rotation+ 180f, aimAngleP + 180f, turnspeed) - 180f)) * -30f;
+        
         //rb.rotation = Mathf.LerpAngle(rb.rotation, aimAngleP, 0.1f);
         
         //agent.nextPosition = transform.position;
-        if (timer > 0) {
+        if (timer > 0 && !CanSeePlayer) {
             timer--;
         }
         if (AItimer > 0) {

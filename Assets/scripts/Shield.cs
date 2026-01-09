@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using System.Collections;
 
 public class Shield : MonoBehaviour
 {
@@ -17,24 +18,33 @@ public class Shield : MonoBehaviour
     public GameObject owner;
 
     public bool player;
+
+    private bool shaking;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
-        
+       // initpos = transform.position;
     }
 
     public void Hit(float Damage){
         timer = rechargeTimerMax;
         shieldHealth -= Damage;
-        shield.transform.DOShakePosition(0.25f, 1f, 50, 0.5f, false, true);
+        StartCoroutine(Shake());
     }
 
     public void Heal(){
         
         if(shieldHealth < shieldMaxHealth){
-            shield.transform.DOShakePosition(0.25f, 1f, 50, 0.5f, false, true);
+            shield.transform.localScale = new Vector3(shield.transform.localScale.x, 0.25f, 1 );
+            //StartCoroutine(Shake());
                 shieldHealth++;
             }
+    }
+
+    IEnumerator Shake(){
+        shaking = true;
+        yield return new WaitForSeconds(0.25f);
+        shaking = false;
     }
 
     // Update is called once per frame
@@ -44,7 +54,12 @@ public class Shield : MonoBehaviour
             Destroy(transform.root.gameObject);
         }
         if(owner != null){
-            transform.root.position = owner.transform.position;
+            if(shaking){
+                transform.root.position = owner.transform.position + ((Vector3)UnityEngine.Random.insideUnitCircle * 0.25f);
+            } else {
+                transform.root.position = owner.transform.position;
+            }
+            
             transform.root.rotation = owner.transform.rotation;
         }
         
@@ -52,9 +67,9 @@ public class Shield : MonoBehaviour
         collider.enabled = shieldHealth > 0;
         //shield.SetActive(shieldHealth > 0);
         if(shieldHealth > 0){
-            shield.transform.localScale = new Vector3( Mathf.Lerp(shield.transform.localScale.x, 1.5f, 0.1f),0.1f, 1);
+            shield.transform.localScale = new Vector3( Mathf.Lerp(shield.transform.localScale.x, 1.5f, 0.1f),Mathf.Lerp(shield.transform.localScale.y, 0.1f, 0.1f), 1);
         } else {
-            shield.transform.localScale = new Vector3( Mathf.Lerp(shield.transform.localScale.x, 0f, 0.1f),0.1f, 1);
+            shield.transform.localScale = new Vector3( Mathf.Lerp(shield.transform.localScale.x, 0f, 0.1f),Mathf.Lerp(shield.transform.localScale.y, 0.1f, 0.1f), 1);
         }
 
         

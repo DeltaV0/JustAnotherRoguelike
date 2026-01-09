@@ -626,6 +626,7 @@ MonoBehaviour:
   audio:
   - {fileID: 8300000, guid: 237cd34abb8f87046aeb17dc4ef7e25f, type: 3}
   - {fileID: 8300000, guid: 83cc074a249e2fb409ecbb3d2758fd1a, type: 3}
+  cost: 2
   maxHealTimer: 250
   healthBar: {fileID: 8957206686486725768}
   healtimer: 0

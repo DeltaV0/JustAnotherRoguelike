@@ -25,19 +25,30 @@ public class ChillHealerEnemyAI : BasicEnemy
         maxHealTimer = (int)((float)maxHealTimer * Random.Range((1f / 1f + (((float)PlayerStats.me.Level - 1f )/ 3f)), 1.1f));
         agent.speed *= Random.Range(0.95f, 1f + (((float)PlayerStats.me.Level - 1f )/ 3f));
         
-        if(Random.Range(0, 11) == 0){
+        if(Random.Range(0, 11) == 0 && PlayerStats.me.Level > 1){
             GameObject bullet = (GameObject)Instantiate(Prefabs.me.additions[0], transform.position, transform.rotation);
             //bullet.transform.parent = transform;
             bullet.transform.GetChild(0).gameObject.GetComponent<Shield>().owner = gameObject;
+            cost += (int)(cost * 0.25f);
         }
-        if(Random.Range(0, 11) == 0){
+        if(Random.Range(0, 13) == 0 && PlayerStats.me.Level > 2){
             GameObject bullet = (GameObject)Instantiate(Prefabs.me.additions[1], transform.position, transform.rotation);
             bullet.transform.gameObject.GetComponent<FancyAddon>().owner = gameObject;
             maxHealth *= 2;
             maxHealTimer = (int)(maxHealTimer * 0.5f);
             agent.speed *= 1.5f;
+            cost += (int)(cost * 0.5f);
         }
         health = maxHealth;
+        if(room.budget - cost < 0){
+            TemplatesRooms.me.player.enemiesInRoom.Remove(this);
+            GameObject e = Instantiate(Prefabs.me.Misc[1], transform.position, Quaternion.identity);
+            e.transform.GetComponent<ItemSpawner>().room = room;
+            Destroy(gameObject);
+        } else {
+            room.enemyCount++;
+            room.budget -= cost;
+        }
     }
 
     // Update is called once per frame

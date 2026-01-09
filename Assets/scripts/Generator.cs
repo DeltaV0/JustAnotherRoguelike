@@ -51,7 +51,7 @@ public class Generator : MonoBehaviour
     }
 
     IEnumerator Generate(){
-        
+        yield return new WaitForSecondsRealtime(0.1f);
         GameObject newRoom1 = Instantiate(InitRoomPF, transform.position, Quaternion.identity);
         Room NRReoom = newRoom1.GetComponent<Room>();
         NRReoom.RoomType = 0;
@@ -191,7 +191,7 @@ public class Generator : MonoBehaviour
     }
 
     public Room GetFarthestRoom(){
-        Room q = new Room();
+        Room q = null;
         float d = 0;
         for(int i = 0; i < Rooms.Count; i++){
             if(Vector3.Distance(Rooms[i].transform.position, Rooms[0].transform.position) >= d){

@@ -57,7 +57,7 @@ public class Item : MonoBehaviour
             //}
         }
         price += (int)(priceInflation * 0.1f * PlayerStats.me.Level);
-        if((unique && TemplatesRooms.me.itemsInWorld.Contains(this))){
+        if((unique && TemplatesRooms.me.itemsInWorld.Contains(ID))){
             GameObject e = Instantiate(Prefabs.me.Misc[0], transform.position, Quaternion.identity);
             e.transform.parent = TemplatesRooms.me.roomHolder;
             Destroy(gameObject);
@@ -69,7 +69,7 @@ public class Item : MonoBehaviour
             e.transform.parent = TemplatesRooms.me.roomHolder;
             Destroy(gameObject);
         }
-        TemplatesRooms.me.itemsInWorld.Add(this);
+        TemplatesRooms.me.itemsInWorld.Add(ID);
     }
 
     // Update is called once per frame
@@ -111,7 +111,7 @@ public class Item : MonoBehaviour
     }
 
     void Buy(){
-        TemplatesRooms.me.itemsInWorld.Remove(this);
+        TemplatesRooms.me.itemsInWorld.Remove(ID);
         TemplatesRooms.me.LookingAtItem = false;
         PlayerStats.me.Money -= price;
         PlayerStats.me.Items.Add(ID);

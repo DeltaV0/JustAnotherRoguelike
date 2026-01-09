@@ -615,6 +615,11 @@ MonoBehaviour:
   Coin: {fileID: 7569131320396160966, guid: 3525ec3a3fc422a4590b407842c82426, type: 3}
   moveSpeed: 1
   healparts: {fileID: 1543149600935978093}
+  aud: {fileID: 3466340641692402697}
+  audio:
+  - {fileID: 8300000, guid: 3d4d208a629128947bd4242f7b0418d8, type: 3}
+  - {fileID: 8300000, guid: 83cc074a249e2fb409ecbb3d2758fd1a, type: 3}
+  cost: 3
   timer: 50
   healthBar: {fileID: 5758866251362581670}
   AItimer: 0
@@ -626,10 +631,6 @@ MonoBehaviour:
   averageMaxShootTimer: 25
   AISpeed: 0a00000032000000
   turnspeed: 0.05
-  aud: {fileID: 3466340641692402697}
-  audio:
-  - {fileID: 8300000, guid: 3d4d208a629128947bd4242f7b0418d8, type: 3}
-  - {fileID: 8300000, guid: 83cc074a249e2fb409ecbb3d2758fd1a, type: 3}
 --- !u!61 &7005640835464320813
 BoxCollider2D:
   m_ObjectHideFlags: 0

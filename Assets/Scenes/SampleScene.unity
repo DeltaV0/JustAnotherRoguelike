@@ -202,7 +202,7 @@ MonoBehaviour:
   Shop: {fileID: 1531598041046681612, guid: 7b6f111587f2a4843a4fea583f52edec, type: 3}
   LookingAtItem: 0
   ItemLookingAt: {fileID: 0}
-  itemsInWorld: []
+  itemsInWorld: 
 --- !u!4 &52329775
 Transform:
   m_ObjectHideFlags: 0
@@ -473,12 +473,14 @@ MonoBehaviour:
   - {fileID: 7075655672749605357, guid: 4eeb684d04fac0b42af66dd6147513f8, type: 3}
   - {fileID: 3349094665881762180, guid: d803c80a68449204f900a49f87feed53, type: 3}
   - {fileID: 1587140138667388774, guid: 3eb8673c2aed3514da97a8d385e08186, type: 3}
+  - {fileID: 5343088572949017764, guid: cbf174056daf069408a0e35c735c11d0, type: 3}
   All:
   - {fileID: 7232700895531875981, guid: bb8c74346ce71c4469241ac3e2fea80c, type: 3}
   - {fileID: 7075655672749605357, guid: 4eeb684d04fac0b42af66dd6147513f8, type: 3}
   - {fileID: 6733414213494840667, guid: 174f6b9eb3398e444b23f39ff21a8f10, type: 3}
   - {fileID: 3349094665881762180, guid: d803c80a68449204f900a49f87feed53, type: 3}
   - {fileID: 1587140138667388774, guid: 3eb8673c2aed3514da97a8d385e08186, type: 3}
+  - {fileID: 5343088572949017764, guid: cbf174056daf069408a0e35c735c11d0, type: 3}
   ChinaEnemies: []
   Items:
   - {fileID: 5306699281065898318, guid: 841b0b3c3dbd7404aac16cbf7ea91a43, type: 3}
@@ -509,6 +511,9 @@ MonoBehaviour:
   - {fileID: 983347079351913076, guid: e08e4132c05291540a56594e4009eb01, type: 3}
   Misc:
   - {fileID: 4630452685563358546, guid: 16df9b6526b3b2543be5d72753dbc717, type: 3}
+  - {fileID: 6561676926979397631, guid: 3986790a6066ebb44963eacc9c0379e2, type: 3}
+  - {fileID: 687009735817583778, guid: 24998867f668e4641a63f3522886d1b7, type: 3}
+  - {fileID: 6728962244048432801, guid: dbaafbd0af383f44aa7067785bc4b1c2, type: 3}
 --- !u!82 &332974637
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1697,7 +1702,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.083333336
   m_BuildHeightMesh: 0
   m_MinRegionArea: 0
   m_HideEditorLogs: 0

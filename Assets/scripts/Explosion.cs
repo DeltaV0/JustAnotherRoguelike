@@ -24,13 +24,15 @@ public class Explosion : MonoBehaviour
                 col.transform.gameObject.GetComponent<Rigidbody2D>().linearVelocity += (Vector2)(col.transform.root.position - transform.position).normalized * Power;
                 col.gameObject.GetComponent<EnemyIdentifier>().AI.health -= Power;
                 col.gameObject.GetComponent<EnemyIdentifier>().AI.aud.PlayOneShot(col.gameObject.GetComponent<EnemyIdentifier>().AI.audio[1], 0.25f);
+                GameObject a = Instantiate(Prefabs.me.Misc[3], col.transform.position, Quaternion.identity);
+                a.GetComponent<HealthChangeText>().Activate(-1 * Power);
             }
             if(col.CompareTag("Shield")){
                 col.gameObject.GetComponent<Shield>().Hit(Power);
             }
             if(col.CompareTag("Player")){
                 col.transform.gameObject.GetComponent<Rigidbody2D>().linearVelocity += (Vector2)(col.transform.root.position - transform.position).normalized * Power;
-                col.gameObject.GetComponent<Player>().health -= Power;
+                col.gameObject.GetComponent<Player>().Hurt(Power);
                 col.gameObject.GetComponent<Player>().aud.PlayOneShot(col.gameObject.GetComponent<Player>().audio[1], 0.25f);
             }
         }

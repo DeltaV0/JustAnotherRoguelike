@@ -4937,7 +4937,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: 0
-  damage: 0
+  damage: 1
   HomingStrength: 0
   rb: {fileID: 6897707564853811464}
   initVel: 0

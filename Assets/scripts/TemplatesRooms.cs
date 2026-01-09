@@ -42,7 +42,7 @@ public class TemplatesRooms : MonoBehaviour
 
     public Transform ItemLookingAt;
 
-    public List<Item> itemsInWorld;
+    public List<int> itemsInWorld;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

@@ -33,11 +33,24 @@ public class Room : MonoBehaviour
 
     public GameObject[] Walls;
 
+    public int budget;
+
+    public GameObject[] Obsticles;
+
    // public Color[] Colors;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        budget = (2 * PlayerStats.me.Level) + UnityEngine.Random.Range(-1, PlayerStats.me.Level);
         Visited = false;
+        if(Obsticles.Length != 0){
+        if(UnityEngine.Random.Range(0, 2) == 0){
+            CanBeItemRoom = false;
+            for(int i = 0; i < UnityEngine.Random.Range(1, 3); i++){
+                Obsticles[UnityEngine.Random.Range(0, Obsticles.Length)].SetActive(true);
+            }
+        }
+        }
         if(RoomType > 0){
             // 0 = spawn room, - = preset for some reason
             
@@ -60,6 +73,8 @@ public class Room : MonoBehaviour
         rt = TemplatesRooms.me;
         TemplatesRooms.me.Timer = 50;
         TemplatesRooms.me.rooms.Add(this);
+
+        
     }
 
     public void SpawnPlayer(){
@@ -71,6 +86,9 @@ public class Room : MonoBehaviour
 
     public void SpawnExit(){
         //TemplatesRooms
+        for(int i = 0; i < Obsticles.Length; i++){
+            Obsticles[i].SetActive(false);
+        }
         GameObject q = Instantiate(exit, transform.position, transform.rotation);
         q.transform.parent = TemplatesRooms.me.roomHolder;
 
@@ -81,11 +99,11 @@ public class Room : MonoBehaviour
     {
         Blocker.SetActive(enemyCount > 0);
         if(CameraMover.me.WorldMap && Visited){
-            spr.color = rt.Colours[2];
+            spr.color = TemplatesRooms.me.Colours[2];
         } else if(summoned && enemyCount <= 0 && RoomType < 10 && RoomType > 0){
-            spr.color = rt.Colours[1];
+            spr.color = TemplatesRooms.me.Colours[1];
         } else {
-            spr.color = rt.Colours[0];
+            spr.color = TemplatesRooms.me.Colours[0];
         }
         if(text != null){
             text.text = PlayerStats.me.Level + "";
@@ -110,9 +128,28 @@ public class Room : MonoBehaviour
     void OnMouseDown(){
         if(CameraMover.me.WorldMap && Visited){
             if(TemplatesRooms.me.player != null){
-                Prefabs.me.PlaySFX(0, 0.25f);
+                Prefabs.me.PlaySFX(0, 0.5f);
                 TemplatesRooms.me.player.timer = PlayerStats.me.FireSpeed;
-                TemplatesRooms.me.player.transform.position = transform.position;
+                bool placed = false;
+                    Vector3 RandomPos;
+                while(!placed){
+                        RandomPos.x = UnityEngine.Random.Range(-10f, 10f);
+                        RandomPos.y = UnityEngine.Random.Range(-10f, 10f);
+                        RandomPos.z = 0;
+                        if(Physics2D.OverlapCircle(new Vector2(RandomPos.x, RandomPos.y) + (Vector2)transform.position, 0.75f, LayerMask.GetMask("Wall")) == null){
+                            placed = true;
+                            
+                            //if(i == 0){
+                               // GameObject e = Instantiate(Prefabs.me.EnemyInit[UnityEngine.Random.Range(0, Prefabs.me.EnemyInit.Length)], (Vector3)(UnityEngine.Random.insideUnitCircle * 5f ) + transform.position, Quaternion.identity);
+                               // e.transform.GetComponent<EnemyIdentifier>().AI.room = this;
+                           // } else {
+
+                                TemplatesRooms.me.player.transform.position = RandomPos + transform.position;
+                            //}
+                            
+                        }
+                    }
+                
                 CameraMover.me.WorldMap = false;
                 TemplatesRooms.me.player.ReloadTimer++;
             }
@@ -123,32 +160,15 @@ public class Room : MonoBehaviour
         if(other.CompareTag("Player") && TemplatesRooms.me.player != null){
             TemplatesRooms.me.player.currentRoom = this;
             if(!summoned){
+            foreach(Room r in Generator.me.Rooms){
+                if(r != this){
+                    r.budget = (int)Mathf.Round(r.budget * 1.1f);
+                }
+            }
             Visited = true;
             summoned = true;
             if(RoomType < 10 && RoomType > 0){
-                for(int i = 0; i < UnityEngine.Random.Range(1, (PlayerStats.me.Level) + 3); i++){
-                    bool placed = false;
-                    Vector3 RandomPos;
-                    while(!placed){
-                        RandomPos.x = UnityEngine.Random.Range(-10f, 10f);
-                        RandomPos.y = UnityEngine.Random.Range(-10f, 10f);
-                        RandomPos.z = 0;
-                        if(Physics2D.OverlapCircle(new Vector2(RandomPos.x, RandomPos.y), 0.75f, LayerMask.GetMask("Wall")) == null){
-                            placed = true;
-                            enemyCount++;
-                            if(i == 0){
-                                GameObject e = Instantiate(Prefabs.me.EnemyInit[UnityEngine.Random.Range(0, Prefabs.me.EnemyInit.Length)], (Vector3)(UnityEngine.Random.insideUnitCircle * 5f ) + transform.position, Quaternion.identity);
-                                e.transform.GetComponent<EnemyIdentifier>().AI.room = this;
-                            } else {
-
-                                GameObject e = Instantiate(Prefabs.me.All[UnityEngine.Random.Range(0, Prefabs.me.All.Length)], (Vector3)(UnityEngine.Random.insideUnitCircle * 5f ) + transform.position, Quaternion.identity);
-                                e.transform.GetComponent<EnemyIdentifier>().AI.room = this;
-                            }
-                            
-                        }
-                    }
-                    
-                }
+                StartCoroutine(SpawnEnemies());
             } else if(RoomType == 10){
                 for(int i = -1; i < 2; i++){
                     GameObject e = Instantiate(Prefabs.me.Items[UnityEngine.Random.Range(0, Prefabs.me.Items.Length)], transform.position + new Vector3(i * 5, 0, 0), Quaternion.identity);
@@ -158,5 +178,32 @@ public class Room : MonoBehaviour
             }
             //Spawned = true;
         }
+    }
+
+    IEnumerator SpawnEnemies(){
+        for(int i = 0; i < UnityEngine.Random.Range(1, (PlayerStats.me.Level * 2) + 1); i++){
+                    bool placed = false;
+                    Vector3 RandomPos;
+                    while(!placed){
+                        RandomPos.x = UnityEngine.Random.Range(-10f, 10f);
+                        RandomPos.y = UnityEngine.Random.Range(-10f, 10f);
+                        RandomPos.z = 0;
+                        if(Physics2D.OverlapCircle(new Vector2(RandomPos.x, RandomPos.y) + (Vector2)transform.position, 0.75f, LayerMask.GetMask("Wall")) == null){
+                            placed = true;
+                            
+                            //if(i == 0){
+                               // GameObject e = Instantiate(Prefabs.me.EnemyInit[UnityEngine.Random.Range(0, Prefabs.me.EnemyInit.Length)], (Vector3)(UnityEngine.Random.insideUnitCircle * 5f ) + transform.position, Quaternion.identity);
+                               // e.transform.GetComponent<EnemyIdentifier>().AI.room = this;
+                           // } else {
+
+                                GameObject e = Instantiate(Prefabs.me.Misc[1], RandomPos + transform.position, Quaternion.identity);
+                                e.transform.GetComponent<ItemSpawner>().room = this;
+                            //}
+                            
+                        }
+                    }
+                    yield return new WaitForSecondsRealtime(0.1f);
+                    
+                }
     }
 }

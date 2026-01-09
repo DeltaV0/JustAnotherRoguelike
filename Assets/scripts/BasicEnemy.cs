@@ -18,6 +18,8 @@ public class BasicEnemy : MonoBehaviour
     public AudioSource aud;
 
     public AudioClip[] audio;
+
+    public int cost;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -29,6 +31,8 @@ public class BasicEnemy : MonoBehaviour
 
     public void heal(float h){
         health += h;
+        GameObject a = Instantiate(Prefabs.me.Misc[3], transform.position, Quaternion.identity);
+        a.GetComponent<HealthChangeText>().Activate(h);
         healparts.Play();
         if(health > maxHealth){
             health = maxHealth;

@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: 0
-  damage: 0
+  damage: 1
   HomingStrength: 0.025
   rb: {fileID: 4980112515005899138}
   initVel: 0
@@ -112,6 +112,9 @@ MonoBehaviour:
   col: {fileID: 1232892259640750009}
   Owner: {fileID: 0}
   trail: {fileID: 2565578080409048379}
+  aud: {fileID: 0}
+  audio: []
+  explosionPF: {fileID: 0}
 --- !u!61 &1232892259640750009
 BoxCollider2D:
   m_ObjectHideFlags: 0

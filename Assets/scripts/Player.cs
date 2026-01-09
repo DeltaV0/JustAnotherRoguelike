@@ -72,6 +72,7 @@ public class Player : MonoBehaviour
         if(ammo <= 0){
             ammo = stats.MaxAmmo;
             ReloadTimer = stats.MaxReload;
+            //AmmoCircle.fillAmount = 0f;
         }
         if (Input.GetMouseButton(0) && timer <= 0 && ammo > 0 && ReloadTimer <= 0)
         {
@@ -118,16 +119,16 @@ public class Player : MonoBehaviour
 
     public void Hurt(float d){
         health -= d;
-        StartCoroutine(ouch());
+        StartCoroutine(ouch(d));
         
 
     }
 
-    IEnumerator ouch(){
+    IEnumerator ouch(float d){
         Time.timeScale = 0;
        // Black.color = new Color(1, 1, 1, 1);
         ImpactFrame.color = new Color(1, 0.25f, 0.25f, 1);
-        yield return new WaitForSecondsRealtime(0.125f);
+        yield return new WaitForSecondsRealtime(0.125f * d);
         ImpactFrame.color = new Color(1, 0.25f, 0.25f, 0);
         //Black.color = new Color(0, 0, 0, 0);
         Time.timeScale = 1;
@@ -155,8 +156,10 @@ public class Player : MonoBehaviour
         }
         //Debug.Log((float)(ammo / stats.MaxAmmo));
         if(ReloadTimer <= 0){
-        AmmoCircle.fillAmount = Mathf.Lerp(AmmoCircle.fillAmount, (float)((float)ammo / (float)stats.MaxAmmo), 0.1f);
+            AmmoCircle.fillMethod = Image.FillMethod.Vertical;
+            AmmoCircle.fillAmount = Mathf.Lerp(AmmoCircle.fillAmount, (float)((float)ammo / (float)stats.MaxAmmo), 0.1f);
         } else {
+            AmmoCircle.fillMethod = Image.FillMethod.Radial360;
             AmmoCircle.fillAmount = Mathf.Lerp(AmmoCircle.fillAmount, 1f - (float)((float)ReloadTimer / (float)stats.MaxReload), 0.25f);
         }
         if (timer > 0) {
