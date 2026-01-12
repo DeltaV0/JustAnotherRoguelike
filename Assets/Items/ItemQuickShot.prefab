@@ -406,28 +406,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Rapid Fire
-  desc: + 20% bullet speed, + 20% firerate, - 20% damage
+  desc: + 25% bullet speed, + 25% firerate, - 10% damage
   ID: 9
   price: 0
   basePrice: 5
   priceInflation: 4
   sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  Requirement: {fileID: 0}
-  DisableOnPurchase: {fileID: 0}
+  Requirement: 0
+  DisableOnPurchase: 0
   unique: 0
   effects:
   - HardCoded: 0
     stat: 0
     ADD: 0
-    MULT: -0.2
+    MULT: -0.1
   - HardCoded: 0
     stat: 6
     ADD: 0
-    MULT: -0.2
+    MULT: -0.25
   - HardCoded: 0
     stat: 1
     ADD: 0
-    MULT: 0.2
+    MULT: 0.25
   spr: {fileID: 2943880617498677425}
   text:
   - {fileID: 7228115859485966325}

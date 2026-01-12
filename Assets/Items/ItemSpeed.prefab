@@ -406,14 +406,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Speedy
-  desc: + 10% Move Speed, -10% Dash Cooldown, - 10% max health
+  desc: + 20% Move Speed, -15% Dash Cooldown, - 10% max health
   ID: 11
   price: 0
   basePrice: 4
   priceInflation: 5
   sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  Requirement: {fileID: 0}
-  DisableOnPurchase: {fileID: 0}
+  Requirement: 0
+  DisableOnPurchase: 0
   unique: 0
   effects:
   - HardCoded: 0
@@ -423,11 +423,11 @@ MonoBehaviour:
   - HardCoded: 0
     stat: 10
     ADD: 0
-    MULT: 0.1
+    MULT: 0.2
   - HardCoded: 0
     stat: 11
     ADD: 0
-    MULT: -0.1
+    MULT: -0.15
   spr: {fileID: 3607716113413978703}
   text:
   - {fileID: 6802388263835386386}

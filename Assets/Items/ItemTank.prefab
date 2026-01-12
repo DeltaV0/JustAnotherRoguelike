@@ -646,20 +646,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Tank
-  desc: +25% max health, -5% speed
+  desc: +30% max health, -5% speed
   ID: 12
   price: 0
   basePrice: 4
   priceInflation: 5
   sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  Requirement: {fileID: 0}
-  DisableOnPurchase: {fileID: 0}
+  Requirement: 0
+  DisableOnPurchase: 0
   unique: 0
   effects:
   - HardCoded: 0
     stat: 9
     ADD: 0
-    MULT: 0.25
+    MULT: 0.3
   - HardCoded: 0
     stat: 10
     ADD: 0

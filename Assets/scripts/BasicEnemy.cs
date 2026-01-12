@@ -20,10 +20,13 @@ public class BasicEnemy : MonoBehaviour
     public AudioClip[] audio;
 
     public int cost;
+
+    public bool Burning;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Burning = false;
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         agent.updatePosition = false;

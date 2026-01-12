@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
 
     void Update(){
         UpdateStats();
-        if(!CameraMover.me.WorldMap){
+        if(!CameraMover.me.WorldMap && !PauseManager.me.paused){
         
         if(ammo <= 0){
             ammo = stats.MaxAmmo;

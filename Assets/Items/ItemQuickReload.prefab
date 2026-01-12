@@ -510,14 +510,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Quick Reload
-  desc: -1 ammo, 25% faster reload
+  desc: -1 ammo, 40% faster reload
   ID: 8
   price: 0
   basePrice: 3
   priceInflation: 3
   sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  Requirement: {fileID: 0}
-  DisableOnPurchase: {fileID: 0}
+  Requirement: 0
+  DisableOnPurchase: 0
   unique: 0
   effects:
   - HardCoded: 0
@@ -527,7 +527,7 @@ MonoBehaviour:
   - HardCoded: 0
     stat: 5
     ADD: 0
-    MULT: -0.25
+    MULT: -0.4
   spr: {fileID: 2917099355592168653}
   text:
   - {fileID: 8089657016290304899}

@@ -54,6 +54,10 @@ public class Bullet : MonoBehaviour
             if(acidLevel > 0){
                 SpawnAcid();
             }
+            if (player)
+        {
+            Burn();
+        }
             aud.pitch = Random.Range(0.8f, 1.2f);
             aud.PlayOneShot(audio[0], 0.1f);
             bounces--;
@@ -116,9 +120,21 @@ public class Bullet : MonoBehaviour
             if(acidLevel > 0){
                 SpawnAcid();
             }
+        if (player)
+        {
+            Burn();
+        }
             if(Owner != null){
             ColParts();
             }
+    }
+
+    public void Burn()
+    {
+            GameObject f = Instantiate(Prefabs.me.PlaceableThings[2], transform.position, Quaternion.identity);
+            f.transform.parent = TemplatesRooms.me.roomHolder;
+            //f.GetComponent<Fire>().Owner = Target;
+        
     }
 
     public void SpawnExplosion(){
@@ -175,6 +191,7 @@ public class Bullet : MonoBehaviour
                 collision.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.aud.PlayOneShot(collision.gameObject.GetComponent<EnemyIdentifier>().AI.audio[1], 0.25f);
                 GameObject a = Instantiate(Prefabs.me.Misc[3], collision.transform.position, Quaternion.identity);
                 a.GetComponent<HealthChangeText>().Activate(-1 * damage);
+                
                 if(bounces <= 0){
                     trail.Stop();
                     trail.transform.parent = TemplatesRooms.me.roomHolder;

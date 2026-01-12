@@ -1,17 +1,21 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class PauseManager : MonoBehaviour
 {
+
+    public GameObject PauseMenu;
     public bool paused;
 
-    public  List<AudioSource> sources;
+    public static PauseManager me;
 
-    public  List<float> pitches;
+    //public AudioListener aud;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        me = this;
         paused = false;
     }
 
@@ -21,22 +25,16 @@ public class PauseManager : MonoBehaviour
         if(Input.GetKeyDown("escape")){
             if(!paused){
                 paused = true;
-                pitches.Clear();
-                sources.Clear();
                 Time.timeScale = 0;
                 //error, fix this!!
                 //sources.AddRange(FindObjectsOfType(typeof(AudioSource)));
-                foreach(AudioSource aud in sources){
-                    pitches.Add(aud.pitch);
-                    aud.pitch = 0f;
-                }
+                AudioListener.pause = true;
             } else {
                 paused = false;
-                for(int i = 0; i < sources.Count; i++){
-                    sources[i].pitch = pitches[i];
-                }
+                AudioListener.pause = false;
                 Time.timeScale = 1;
             }
+            PauseMenu.SetActive(paused);
         }
     }
 }

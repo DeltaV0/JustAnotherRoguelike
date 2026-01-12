@@ -134,20 +134,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Concentrated Fire
-  desc: + 15% damage, 1/2 inaccuracy, -10% firerate
+  desc: + 30% damage, 1/2 inaccuracy, -10% firerate
   ID: 10
   price: 0
   basePrice: 4
   priceInflation: 5
   sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  Requirement: {fileID: 0}
-  DisableOnPurchase: {fileID: 0}
+  Requirement: 0
+  DisableOnPurchase: 0
   unique: 0
   effects:
   - HardCoded: 0
     stat: 0
     ADD: 0
-    MULT: 0.15
+    MULT: 0.3
   - HardCoded: 0
     stat: 3
     ADD: 0
