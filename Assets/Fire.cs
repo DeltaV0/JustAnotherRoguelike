@@ -4,6 +4,8 @@ using System.Collections;
 public class Fire : MonoBehaviour
 {
     public GameObject Owner;
+
+    public ParticleSystem parts;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -29,13 +31,15 @@ public class Fire : MonoBehaviour
                 GameObject a = Instantiate(Prefabs.me.Misc[3], Owner.transform.position, Quaternion.identity);
                 Owner.GetComponent<EnemyIdentifier>().AI.aud.PlayOneShot(Owner.GetComponent<EnemyIdentifier>().AI.audio[1], 0.25f);
                 a.GetComponent<HealthChangeText>().Activate(-1 * 0.25f);
-                yield return new WaitForSeconds(0.5f);
+                
             }
+            yield return new WaitForSeconds(0.5f);
         }
         if(Owner != null){
         Owner.GetComponent<EnemyIdentifier>().AI.Burning = false;
         }
-        Destroy(gameObject);
+        parts.Stop();
+        this.enabled = false;
     }
 
     void OnTriggerEnter2D(Collider2D other)
