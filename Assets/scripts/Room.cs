@@ -37,6 +37,10 @@ public class Room : MonoBehaviour
 
     public GameObject[] Obsticles;
 
+    public SpriteRenderer Fog;
+
+    public bool exitRoom;
+
    // public Color[] Colors;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -85,6 +89,7 @@ public class Room : MonoBehaviour
     }
 
     public void SpawnExit(){
+        exitRoom = true;
         //TemplatesRooms
         for(int i = 0; i < Obsticles.Length; i++){
             Obsticles[i].SetActive(false);
@@ -98,6 +103,11 @@ public class Room : MonoBehaviour
     void Update()
     {
         Blocker.SetActive(enemyCount > 0);
+        if(!Visited){
+            Fog.color = Color.Lerp(Fog.color, new Color(1f, 1f, 1f, 1f), 0.05f);
+        } else {
+            Fog.color = Color.Lerp(Fog.color, new Color(1f, 1f, 1f, 0f), 0.025f);
+        }
         if(CameraMover.me.WorldMap && Visited){
             spr.color = TemplatesRooms.me.Colours[2];
         } else if(summoned && enemyCount <= 0 && RoomType < 10 && RoomType > 0){
@@ -174,6 +184,8 @@ public class Room : MonoBehaviour
                     GameObject e = Instantiate(Prefabs.me.Items[UnityEngine.Random.Range(0, Prefabs.me.Items.Length)], transform.position + new Vector3(i * 5, 0, 0), Quaternion.identity);
                     e.transform.parent = TemplatesRooms.me.roomHolder;
                 }
+            } else if(exitRoom){
+
             }
             }
             //Spawned = true;
@@ -181,7 +193,7 @@ public class Room : MonoBehaviour
     }
 
     IEnumerator SpawnEnemies(){
-        for(int i = 0; i < UnityEngine.Random.Range(1, (PlayerStats.me.Level * 2) + 1); i++){
+        for(int i = 0; i < UnityEngine.Random.Range(1, (PlayerStats.me.Level * 4) + 1); i++){
                     bool placed = false;
                     Vector3 RandomPos;
                     while(!placed){

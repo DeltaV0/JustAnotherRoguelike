@@ -388,6 +388,7 @@ GameObject:
   - component: {fileID: 332974635}
   - component: {fileID: 332974636}
   - component: {fileID: 332974637}
+  - component: {fileID: 332974638}
   m_Layer: 0
   m_Name: PlayerStats
   m_TagString: Untagged
@@ -474,6 +475,10 @@ MonoBehaviour:
   - {fileID: 3349094665881762180, guid: d803c80a68449204f900a49f87feed53, type: 3}
   - {fileID: 1587140138667388774, guid: 3eb8673c2aed3514da97a8d385e08186, type: 3}
   - {fileID: 5343088572949017764, guid: cbf174056daf069408a0e35c735c11d0, type: 3}
+  - {fileID: 5221467010530988011, guid: 0bcc0061b06a45748870dd484b217121, type: 3}
+  - {fileID: 7284306137311387924, guid: 80610e5c80b1ce448a88085b1fa98cfb, type: 3}
+  - {fileID: 3125875512462615346, guid: 3af64ae96ce6efc4392d8443cfcdebd2, type: 3}
+  - {fileID: 2070138826571859089, guid: adb344bc4de830a4e9f70af62f5c40bb, type: 3}
   All:
   - {fileID: 7232700895531875981, guid: bb8c74346ce71c4469241ac3e2fea80c, type: 3}
   - {fileID: 7075655672749605357, guid: 4eeb684d04fac0b42af66dd6147513f8, type: 3}
@@ -481,6 +486,10 @@ MonoBehaviour:
   - {fileID: 3349094665881762180, guid: d803c80a68449204f900a49f87feed53, type: 3}
   - {fileID: 1587140138667388774, guid: 3eb8673c2aed3514da97a8d385e08186, type: 3}
   - {fileID: 5343088572949017764, guid: cbf174056daf069408a0e35c735c11d0, type: 3}
+  - {fileID: 5221467010530988011, guid: 0bcc0061b06a45748870dd484b217121, type: 3}
+  - {fileID: 7284306137311387924, guid: 80610e5c80b1ce448a88085b1fa98cfb, type: 3}
+  - {fileID: 3125875512462615346, guid: 3af64ae96ce6efc4392d8443cfcdebd2, type: 3}
+  - {fileID: 2070138826571859089, guid: adb344bc4de830a4e9f70af62f5c40bb, type: 3}
   ChinaEnemies: []
   Items:
   - {fileID: 5306699281065898318, guid: 841b0b3c3dbd7404aac16cbf7ea91a43, type: 3}
@@ -611,6 +620,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &332974638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 332974632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bdeee74894187844af9f1a14e0fb730, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paused: 0
+  sources: []
+  pitches: []
 --- !u!1 &496363298
 GameObject:
   m_ObjectHideFlags: 0
@@ -691,7 +715,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!224 &496363302
 RectTransform:
@@ -958,7 +982,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 12
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1028,6 +1052,58 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+--- !u!1 &525569058
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 525569060}
+  - component: {fileID: 525569059}
+  m_Layer: 0
+  m_Name: Passive
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &525569059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525569058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5f165c3b6204e043ae2f0a84b9b9c0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spr: {fileID: 0}
+  name: 
+  desc: 
+  ID: 0
+  price: 0
+  basePrice: 0
+  priceInflation: 0
+  sprite: {fileID: 0}
+--- !u!4 &525569060
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525569058}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1702,7 +1778,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.083333336
+  m_VoxelSize: 0.25
   m_BuildHeightMesh: 0
   m_MinRegionArea: 0
   m_HideEditorLogs: 0
@@ -1927,3 +2003,4 @@ SceneRoots:
   - {fileID: 671917623}
   - {fileID: 739061023}
   - {fileID: 1796634978}
+  - {fileID: 525569060}

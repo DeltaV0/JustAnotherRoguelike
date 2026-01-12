@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class ShootingEnemy : BasicEnemy
 {
@@ -26,21 +27,34 @@ public class ShootingEnemy : BasicEnemy
     public float turnspeed;
 
     public bool CanSeePlayer;
+
+    public bool LazerOneShotType;
+
+    public int waitaftershooting;
+
+    public int burstSize;
+
+    public float BurstSpeed;
+
+    public float[] BurstMinMaxAngle;
+    public float[] ShotMinMaxAngle;
+
+    public float constantRot;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        AIType = Random.Range(0, 3);
+        AIType = UnityEngine.Random.Range(0, 3);
         TemplatesRooms.me.player.enemiesInRoom.Add(this);
-        maxHealth *= Random.Range(0.95f, 1f + (((float)PlayerStats.me.Level - 1f )/ 3f));
-        averageMaxShootTimer = (int)((float)averageMaxShootTimer * Random.Range((1f / 1f + (((float)PlayerStats.me.Level - 1f )/ 3f)), 1.1f));
-        agent.speed *= Random.Range(0.95f, 1f + (((float)PlayerStats.me.Level - 1f )/ 3f));
+        maxHealth *= UnityEngine.Random.Range(0.95f, 1f + (((float)PlayerStats.me.Level - 1f )/ 3f));
+        averageMaxShootTimer = (int)((float)averageMaxShootTimer * UnityEngine.Random.Range((1f / 1f + (((float)PlayerStats.me.Level - 1f )/ 3f)), 1.1f));
+        agent.speed *= UnityEngine.Random.Range(0.95f, 1f + (((float)PlayerStats.me.Level - 1f )/ 3f));
         
-        if(Random.Range(0, 11) == 0 && PlayerStats.me.Level > 1){
+        if(UnityEngine.Random.Range(0, 11) == 0 && PlayerStats.me.Level > 1){
             GameObject bullet = (GameObject)Instantiate(Prefabs.me.additions[0], transform.position, transform.rotation);
             bullet.transform.GetChild(0).gameObject.GetComponent<Shield>().owner = gameObject;
             cost += (int)(cost * 0.25f);
         }
-        if(Random.Range(0, 13) == 0 && PlayerStats.me.Level > 2){
+        if(UnityEngine.Random.Range(0, 13) == 0 && PlayerStats.me.Level > 2){
             GameObject bullet = (GameObject)Instantiate(Prefabs.me.additions[1], transform.position, transform.rotation);
             bullet.transform.gameObject.GetComponent<FancyAddon>().owner = gameObject;
             maxHealth *= 2;
@@ -72,9 +86,9 @@ public class ShootingEnemy : BasicEnemy
     {   
         if(AItimer <= 0){
             AItimer = Random.Range(AISpeed[0], AISpeed[1]);
-            AIType = Random.Range(0, 3);
+            AIType = UnityEngine.Random.Range(0, 3);
             if(AIType == 1){
-                agent.SetDestination(new Vector3(Random.Range(-10f, 10f), Random.Range(-10f, 10f), 0) + room.transform.position);
+                agent.SetDestination(new Vector3(UnityEngine.Random.Range(-10f, 10f), UnityEngine.Random.Range(-10f, 10f), 0) + room.transform.position);
             }
         }
         healthBar.fillAmount = (float)health / (float)maxHealth;
@@ -86,10 +100,10 @@ public class ShootingEnemy : BasicEnemy
         if(health <= 0){
             Instantiate(Prefabs.me.enemyDeath[0], transform.position, transform.rotation);
             room.enemyCount--;
-            for(int i = 0; i < Random.Range(1, 5); i++){
+            for(int i = 0; i < Random.Range(1, cost * 2); i++){
                 GameObject bullet = (GameObject)Instantiate(Coin, transform.position, transform.rotation);
                 bullet.transform.parent = TemplatesRooms.me.roomHolder;
-                bullet.GetComponent<Rigidbody2D>().rotation = Random.Range(0, 360f);
+                bullet.GetComponent<Rigidbody2D>().rotation = UnityEngine.Random.Range(0, 360f);
                 bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(Mathf.Cos((bullet.GetComponent<Rigidbody2D>().rotation + 90f) * Mathf.Deg2Rad) * 1f * PlayerStats.me.Damage, Mathf.Sin((bullet.GetComponent<Rigidbody2D>().rotation + 90f) * Mathf.Deg2Rad) * 1f * PlayerStats.me.Damage), ForceMode2D.Impulse);
             }
             TemplatesRooms.me.player.enemiesInRoom.Remove(this);
@@ -101,9 +115,19 @@ public class ShootingEnemy : BasicEnemy
 
         if (timer <= 0)
         {
-            aud.pitch = Random.Range(0.8f, 1.2f);
+            StartCoroutine(Fire());
+
+           
+        }
+    }
+
+    IEnumerator Fire(){
+        timer = averageMaxShootTimer + UnityEngine.Random.Range(-10, 10);
+        for(int q = 0; q < burstSize; q++){
+            
+            aud.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
             aud.PlayOneShot(audio[0], 0.25f);
-            timer = averageMaxShootTimer + Random.Range(-10, 10);
+            
 
             for (int i = 0; i < shots; i++) {
             GameObject bullet = (GameObject)Instantiate(bulletPrefab, transform.position, transform.rotation);
@@ -111,8 +135,8 @@ public class ShootingEnemy : BasicEnemy
             //Vector2 aimDirection = new Vector2(transform.position.x, transform.position.y) - (Vector2)TemplatesRooms.me.player.transform.position - (Vector2)(TemplatesRooms.me.player.rb.linearVelocity * 0.25f);
 
             //float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg + 90f + Random.Range(-1f * (innacuracy * 0.5f), (innacuracy * 0.5f));
-
-            bullet.GetComponent<Rigidbody2D>().rotation = rb.rotation + Random.Range(-1f * (innacuracy * 0.5f), (innacuracy * 0.5f));
+            if(!LazerOneShotType){
+            bullet.GetComponent<Rigidbody2D>().rotation = rb.rotation + UnityEngine.Random.Range(-1f * (innacuracy * 0.5f), (innacuracy * 0.5f))  + (Mathf.Lerp(BurstMinMaxAngle[0], BurstMinMaxAngle[1], (float)q / ((float)burstSize - 0.99f)) + Mathf.Lerp(ShotMinMaxAngle[0], ShotMinMaxAngle[1], (float)i / ((float)shots - 0.99f)));
 
 
             bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(Mathf.Cos((bullet.GetComponent<Rigidbody2D>().rotation + 90f) * Mathf.Deg2Rad) * fireForce, Mathf.Sin((bullet.GetComponent<Rigidbody2D>().rotation + 90f) * Mathf.Deg2Rad) * fireForce), ForceMode2D.Impulse);
@@ -121,31 +145,58 @@ public class ShootingEnemy : BasicEnemy
             bullet.GetComponent<Bullet>().Owner = gameObject;
             //bullet.GetComponent<Bullet>().flaming = burningBullets;
             //bullet.GetComponent<Bullet>().enemytype = gameObject;
+            } else {
+                //Debug.Log(((float)q / ((float)burstSize - 0f)) + "");
+                bullet.transform.eulerAngles = new Vector3(0, 0, bullet.transform.eulerAngles.z + UnityEngine.Random.Range(-1f * (innacuracy * 0.5f), (innacuracy * 0.5f)) + (Mathf.Lerp(BurstMinMaxAngle[0], BurstMinMaxAngle[1], (float)q / ((float)burstSize - 0.99f)) + Mathf.Lerp(ShotMinMaxAngle[0], ShotMinMaxAngle[1], (float)i / ((float)shots - 0.99f))));
+                if(bullet.GetComponent<ConstantLazer>() != null){
+                    bullet.GetComponent<ConstantLazer>().Owner = gameObject;
+                    bullet.GetComponent<ConstantLazer>().angleOffset = UnityEngine.Random.Range(-1f * (innacuracy * 0.5f), (innacuracy * 0.5f)) + (Mathf.Lerp(BurstMinMaxAngle[0], BurstMinMaxAngle[1], (float)q / ((float)burstSize - 0.99f)) + Mathf.Lerp(ShotMinMaxAngle[0], ShotMinMaxAngle[1], (float)i / ((float)shots - 0.99f)));
+                }
+                //waitaftershooting = 75;
+                //rb.linearVelocity = new Vector2(0, 0);
             }
-
-           
+            }
+            yield return new WaitForSecondsRealtime(BurstSpeed);
         }
     }
 
     void FixedUpdate(){
+        
         if(AIType == 0){
         agent.SetDestination(TemplatesRooms.me.player.transform.position);
         } else if(AIType == 2){
             agent.SetDestination(((TemplatesRooms.me.player.transform.position - room.transform.position) * -1) + room.transform.position);
         }
-        UnityEngine.AI.NavMeshHit hit;
-        CanSeePlayer = agent.Raycast(TemplatesRooms.me.player.transform.position, out hit);
+        RaycastHit2D hit; 
+        hit = Physics2D.Linecast(transform.position, TemplatesRooms.me.player.transform.position, LayerMask.GetMask("Wall"));
+        CanSeePlayer = hit;
         Vector3 aimDirectionP = Vector3.zero;
+
         if(!CanSeePlayer){
             aimDirectionP = new Vector3(transform.root.position.x, transform.root.position.y, 0) - TemplatesRooms.me.player.transform.position - (Vector3)(TemplatesRooms.me.player.rb.linearVelocity * 0.75f * (Vector3.Distance(transform.position, TemplatesRooms.me.player.transform.position) * 0.1f) );
 
         } else {
             Debug.Log("blind");
-            aimDirectionP = new Vector3(transform.root.position.x, transform.root.position.y, 0) - (Vector3)agent.path.corners[1];
+            if(agent.path.corners.Length > 1){
+                aimDirectionP = new Vector3(transform.root.position.x, transform.root.position.y, 0) - (Vector3)agent.path.corners[1];
+            }
+            AIType = 0;
 
         }
         float aimAngleP = Mathf.Atan2(aimDirectionP.y, aimDirectionP.x) * Mathf.Rad2Deg + 90f;
-        rb.angularVelocity = (rb.rotation - (Mathf.LerpAngle(rb.rotation+ 180f, aimAngleP + 180f, turnspeed) - 180f)) * -30f;
+        if(constantRot == 0){
+            rb.angularVelocity = (rb.rotation - (Mathf.LerpAngle(rb.rotation+ 180f, aimAngleP + 180f, turnspeed) - 180f)) * -30f;
+        } else {
+           // rb.rotation += constantRot;
+            rb.angularVelocity = constantRot;
+        }
+
+        if(waitaftershooting > 0){
+            rb.linearVelocity = new Vector2(0, 0);
+            waitaftershooting--;
+            agent.SetDestination(transform.position);
+            rb.angularVelocity = 0;
+        }
         
         //Debug.Log(transform.rotation.z + ", " + aimAngleP + ", " + Mathf.LerpAngle(transform.rotation.z, aimAngleP, 0.5f));
 

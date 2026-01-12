@@ -70,7 +70,7 @@ public class ChillHealerEnemyAI : BasicEnemy
         if(health <= 0){
             Instantiate(Prefabs.me.enemyDeath[0], transform.position, transform.rotation);
             room.enemyCount--;
-            for(int i = 0; i < Random.Range(1, 5); i++){
+            for(int i = 0; i < Random.Range(1, cost * 2); i++){
                 GameObject bullet = (GameObject)Instantiate(Coin, transform.position, transform.rotation);
                 bullet.transform.parent = TemplatesRooms.me.roomHolder;
                 bullet.GetComponent<Rigidbody2D>().rotation = Random.Range(0, 360f);

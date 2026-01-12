@@ -96,6 +96,9 @@ public class Player : MonoBehaviour
             bullet.GetComponent<Bullet>().damage = stats.Damage;
             bullet.GetComponent<Bullet>().HomingStrength = stats.homingPower;
             bullet.GetComponent<Bullet>().bounces = stats.bounces;
+            bullet.GetComponent<Bullet>().acidLevel = stats.acidLevel;
+            bullet.GetComponent<Bullet>().explosionLevel = stats.explosionLevel;
+            bullet.GetComponent<Bullet>().explosionPower = stats.explosionPower;
             bullet.GetComponent<Bullet>().Owner = gameObject;
             //bullet.GetComponent<Bullet>().flaming = burningBullets;
             //bullet.GetComponent<Bullet>().enemytype = gameObject;
@@ -106,7 +109,7 @@ public class Player : MonoBehaviour
         if(Input.GetKeyDown("space") && DashTimer[0] <= 0){
             DashTimer[0] = stats.DashCooldown;
             DashTimer[1] = 10;
-            rb.linearVelocity += moveDir * moveSpeed * 7.5f;
+            rb.linearVelocity += moveDir * PlayerStats.me.MoveSpeed * 7.5f;
         }
         if(DashTimer[1] > 0){
             collider.excludeLayers = LayerMask.GetMask("Enemy","IgnoreBullet");
@@ -183,7 +186,7 @@ public class Player : MonoBehaviour
             Vector2 aimDirectionB = new Vector2(transform.position.x, transform.position.y) - (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
             float aimAngleB = Mathf.Atan2(aimDirectionB.y, aimDirectionB.x) * Mathf.Rad2Deg + 90f;
             transform.eulerAngles = new Vector3(0, 0, aimAngleB);
-            rb.linearVelocity = Vector3.Lerp((Vector3)rb.linearVelocity, moveDir * moveSpeed, 0.2f);
+            rb.linearVelocity = Vector3.Lerp((Vector3)rb.linearVelocity, moveDir * PlayerStats.me.MoveSpeed, 0.2f);
         } else{ 
             rb.linearVelocity = Vector3.Lerp((Vector3)rb.linearVelocity, new Vector3(0, 0, 0), 0.2f);
         }

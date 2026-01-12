@@ -21,7 +21,7 @@ public class Explosion : MonoBehaviour
         for(int i = 0; i < hit.Length; i++){
             Collider2D col = hit[i];
             if(col.CompareTag("Enemy")){
-                col.transform.gameObject.GetComponent<Rigidbody2D>().linearVelocity += (Vector2)(col.transform.root.position - transform.position).normalized * Power;
+                col.transform.root.gameObject.GetComponent<Rigidbody2D>().linearVelocity += (Vector2)(col.transform.root.position - transform.position).normalized * Power;
                 col.gameObject.GetComponent<EnemyIdentifier>().AI.health -= Power;
                 col.gameObject.GetComponent<EnemyIdentifier>().AI.aud.PlayOneShot(col.gameObject.GetComponent<EnemyIdentifier>().AI.audio[1], 0.25f);
                 GameObject a = Instantiate(Prefabs.me.Misc[3], col.transform.position, Quaternion.identity);

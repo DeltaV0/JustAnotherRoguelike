@@ -29,6 +29,12 @@ public class Bullet : MonoBehaviour
     public AudioClip[] audio;
 
     public GameObject explosionPF;
+
+    public float explosionLevel;
+
+    public float explosionPower;
+
+    public float acidLevel;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -42,10 +48,10 @@ public class Bullet : MonoBehaviour
     {
         if(bnce){
             ColParts();
-            if(PlayerStats.me.explosionLevel > 0 && player){
+            if(explosionLevel > 0){
                 SpawnExplosion();
             }
-            if(PlayerStats.me.acidLevel > 0 && player){
+            if(acidLevel > 0){
                 SpawnAcid();
             }
             aud.pitch = Random.Range(0.8f, 1.2f);
@@ -77,7 +83,7 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
         }
         if(player){
-            if(HomingStrength > 0 && TemplatesRooms.me.player.enemiesInRoom.Count > 0){
+            if(TemplatesRooms.me.player != null && HomingStrength > 0 && TemplatesRooms.me.player.enemiesInRoom.Count > 0){
                 rb.linearVelocity = Vector2.LerpUnclamped(rb.linearVelocity, ((Vector2)(transform.position) - (Vector2)(FindNearestEnemy().transform.position)).normalized * initVel * -1, HomingStrength);
             }
         } else {
@@ -104,10 +110,10 @@ public class Bullet : MonoBehaviour
     }
 
     void OnDisable(){
-            if(PlayerStats.me.explosionLevel > 0 && player){
+            if(explosionLevel > 0){
                 SpawnExplosion();
             }
-            if(PlayerStats.me.acidLevel > 0 && player){
+            if(acidLevel > 0){
                 SpawnAcid();
             }
             if(Owner != null){
@@ -118,17 +124,21 @@ public class Bullet : MonoBehaviour
     public void SpawnExplosion(){
         GameObject g = Instantiate(Prefabs.me.PlaceableThings[0], transform.position, Quaternion.identity);
         g.transform.parent = TemplatesRooms.me.roomHolder;
-        g.GetComponent<Explosion>().Power = damage * PlayerStats.me.explosionPower;
-        g.GetComponent<Explosion>().Radius = damage * 0.1f + PlayerStats.me.explosionLevel;
+        g.GetComponent<Explosion>().Power = damage * explosionPower;
+        g.GetComponent<Explosion>().Radius = damage * 0.1f + explosionLevel;
         g.GetComponent<Explosion>().Boom();
+       // aud.pitch = Random.Range(0.8f, 1.2f);
+        //    aud.PlayOneShot(audio[1], 0.1f);
     }
 
     public void SpawnAcid(){
         GameObject g = Instantiate(Prefabs.me.PlaceableThings[1], transform.position, Quaternion.identity);
         g.transform.parent = TemplatesRooms.me.roomHolder;
         g.GetComponent<Acid>().Power = damage * 0.25f;
-        g.GetComponent<Acid>().Radius = damage * 0.1f + PlayerStats.me.acidLevel;
+        g.GetComponent<Acid>().Radius = damage * 0.1f + acidLevel;
         g.GetComponent<Acid>().Activate();
+        //aud.pitch = Random.Range(0.8f, 1.2f);
+         //   aud.PlayOneShot(audio[2], 0.1f);
     }
 
     public void ColParts(){
@@ -161,8 +171,8 @@ public class Bullet : MonoBehaviour
             if (collision.collider.CompareTag("Enemy"))
             {
                 collision.transform.root.gameObject.GetComponent<Rigidbody2D>().linearVelocity += gameObject.GetComponent<Rigidbody2D>().linearVelocity * 0.1f;
-                collision.gameObject.GetComponent<EnemyIdentifier>().AI.health -= damage;
-                collision.gameObject.GetComponent<EnemyIdentifier>().AI.aud.PlayOneShot(collision.gameObject.GetComponent<EnemyIdentifier>().AI.audio[1], 0.25f);
+                collision.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.health -= damage;
+                collision.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.aud.PlayOneShot(collision.gameObject.GetComponent<EnemyIdentifier>().AI.audio[1], 0.25f);
                 GameObject a = Instantiate(Prefabs.me.Misc[3], collision.transform.position, Quaternion.identity);
                 a.GetComponent<HealthChangeText>().Activate(-1 * damage);
                 if(bounces <= 0){

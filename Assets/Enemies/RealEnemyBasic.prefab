@@ -335,7 +335,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d93b4a898430e354c9acd5e383e52d5e, type: 2}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -446,7 +446,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d93b4a898430e354c9acd5e383e52d5e, type: 2}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -625,6 +625,18 @@ MonoBehaviour:
   averageMaxShootTimer: 50
   AISpeed: 19000000c9000000
   turnspeed: 0.05
+  CanSeePlayer: 0
+  LazerOneShotType: 0
+  waitaftershooting: 0
+  burstSize: 1
+  BurstSpeed: 0
+  BurstMinMaxAngle:
+  - 0
+  - 0
+  ShotMinMaxAngle:
+  - 0
+  - 0
+  constantRot: 0
 --- !u!61 &1817910449570731918
 BoxCollider2D:
   m_ObjectHideFlags: 0

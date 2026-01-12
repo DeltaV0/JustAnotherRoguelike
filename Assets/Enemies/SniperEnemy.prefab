@@ -501,6 +501,18 @@ MonoBehaviour:
   averageMaxShootTimer: 250
   AISpeed: 19000000c9000000
   turnspeed: 0.025
+  CanSeePlayer: 0
+  LazerOneShotType: 0
+  waitaftershooting: 0
+  burstSize: 1
+  BurstSpeed: 0
+  BurstMinMaxAngle:
+  - 0
+  - 0
+  ShotMinMaxAngle:
+  - 0
+  - 0
+  constantRot: 0
 --- !u!61 &6733340244002637028
 BoxCollider2D:
   m_ObjectHideFlags: 0

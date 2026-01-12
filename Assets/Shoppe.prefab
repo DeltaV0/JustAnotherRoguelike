@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.75, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 2}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 4}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6566682112316608821}
@@ -70,7 +70,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: -876546973899608171, guid: 6f904a81788f47041aeb6520945d99da, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -92,7 +92,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: 4adeaf2d2b1c7417e89f026626d8264f, type: 3}
-  m_Color: {r: 0.8962264, g: 0.7228996, b: 0.7228996, a: 0.5019608}
+  m_Color: {r: 0.8962264, g: 0.7228996, b: 0.7228996, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -183,6 +183,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c223792b436d4d41a7c281d05e7f611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: 0
+  room: {fileID: 0}
 --- !u!212 &1265278558815837472
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -283,6 +285,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c223792b436d4d41a7c281d05e7f611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: 0
+  room: {fileID: 0}
 --- !u!212 &4597831833449911689
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -383,6 +387,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c223792b436d4d41a7c281d05e7f611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: 0
+  room: {fileID: 0}
 --- !u!212 &8668961833346604145
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -646,6 +652,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c223792b436d4d41a7c281d05e7f611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: 0
+  room: {fileID: 0}
 --- !u!212 &1924372462919881719
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -880,6 +888,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c223792b436d4d41a7c281d05e7f611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: 0
+  room: {fileID: 0}
 --- !u!212 &1947498297389775207
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1156,6 +1166,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c223792b436d4d41a7c281d05e7f611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: 0
+  room: {fileID: 0}
 --- !u!212 &4426349634204206307
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1477,6 +1489,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c223792b436d4d41a7c281d05e7f611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: 0
+  room: {fileID: 0}
 --- !u!212 &1315231633284775179
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1711,6 +1725,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c223792b436d4d41a7c281d05e7f611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: 0
+  room: {fileID: 0}
 --- !u!212 &7123927272523759191
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1811,6 +1827,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c223792b436d4d41a7c281d05e7f611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: 0
+  room: {fileID: 0}
 --- !u!212 &2583433848446444670
 SpriteRenderer:
   m_ObjectHideFlags: 0

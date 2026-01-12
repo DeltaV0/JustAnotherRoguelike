@@ -59,7 +59,7 @@ public class Generator : MonoBehaviour
         CurrentRoom = Rooms[0];
         Debug.Log("init");
 
-        for(int i = 0; i < 20; i++){
+        for(int i = 0; i < 7 + (PlayerStats.me.Level * 3); i++){
             
             OldPos = (Vector2)transform.position;
             
@@ -110,7 +110,7 @@ public class Generator : MonoBehaviour
                     //do this if meets back
                 }
             }
-            if(Mathf.Abs(CurrentPos.x) / 20 >= 4 || Mathf.Abs(CurrentPos.y) / 20 >= 4 ){
+            if(Mathf.Abs(CurrentPos.x) / 20 >= 3 + (PlayerStats.me.Level * 0.5) || Mathf.Abs(CurrentPos.y) / 20 >= 3 + (PlayerStats.me.Level * 0.5)){
                 Debug.Log("Out Of Bounds");
                 Overlap = true;
                 transform.position = (Vector3)OldPos;
@@ -176,13 +176,14 @@ public class Generator : MonoBehaviour
         }
         yield return new WaitForSecondsRealtime(0.1f);
         //TemplatesRooms.me.rooms = Rooms;
+        GetFarthestRoom().SpawnExit();
+        GetFarthestRoom().RoomType = 0;
         surface.BuildNavMesh();
         ExitLocation = GetFarthestRoom().transform;
         GoerCalculate.me.CalcPath();
         Rooms[0].SpawnPlayer();
         //int rand = UnityEngine.Random.Range((int)(rooms.Count * 0.75f), rooms.Count - 1);
-        GetFarthestRoom().SpawnExit();
-        GetFarthestRoom().RoomType = 0;
+        
         //ExitLocation = Rooms[Rooms.Count - 1].transform;
         //TemplatesRooms.me.ExitLocation = ExitLocation;
         //done = true;

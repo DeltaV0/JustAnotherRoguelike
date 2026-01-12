@@ -29,7 +29,7 @@ public class GoerCalculate : MonoBehaviour
         Goer.CalculatePath(Generator.me.ExitLocation.position, path);
         line.positionCount = path.corners.Length;
         for(int i = 0; i < path.corners.Length; i++){
-            Vector3 Rounded = new Vector3(Mathf.Round(path.corners[i].x / 10f) * 10f, Mathf.Round(path.corners[i].y / 10f) * 10f, Mathf.Round(path.corners[i].z / 10f) * 10f);
+            Vector3 Rounded = new Vector3(Mathf.Round(path.corners[i].x), Mathf.Round(path.corners[i].y), Mathf.Round(path.corners[i].z));
             line.SetPosition(i, Rounded);
         }
         if(path.status == NavMeshPathStatus.PathPartial){
