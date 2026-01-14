@@ -99,6 +99,7 @@ public class Player : MonoBehaviour
             bullet.GetComponent<Bullet>().acidLevel = stats.acidLevel;
             bullet.GetComponent<Bullet>().explosionLevel = stats.explosionLevel;
             bullet.GetComponent<Bullet>().explosionPower = stats.explosionPower;
+            bullet.GetComponent<Bullet>().fireLevel = stats.FireLength;
             bullet.GetComponent<Bullet>().Owner = gameObject;
             //bullet.GetComponent<Bullet>().flaming = burningBullets;
             //bullet.GetComponent<Bullet>().enemytype = gameObject;

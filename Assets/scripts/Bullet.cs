@@ -35,6 +35,8 @@ public class Bullet : MonoBehaviour
     public float explosionPower;
 
     public float acidLevel;
+
+    public float fireLevel;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -54,7 +56,7 @@ public class Bullet : MonoBehaviour
             if(acidLevel > 0){
                 SpawnAcid();
             }
-            if (player)
+            if (fireLevel > 0)
         {
             Burn();
         }
@@ -120,7 +122,7 @@ public class Bullet : MonoBehaviour
             if(acidLevel > 0){
                 SpawnAcid();
             }
-        if (player)
+        if (fireLevel > 0)
         {
             Burn();
         }
@@ -133,6 +135,8 @@ public class Bullet : MonoBehaviour
     {
             GameObject f = Instantiate(Prefabs.me.PlaceableThings[2], transform.position, Quaternion.identity);
             f.transform.parent = TemplatesRooms.me.roomHolder;
+            f.GetComponent<Fire>().Damage = damage * 0.1f;
+            f.GetComponent<Fire>().FireLength = fireLevel;
             //f.GetComponent<Fire>().Owner = Target;
         
     }

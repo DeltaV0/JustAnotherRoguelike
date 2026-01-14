@@ -6,6 +6,10 @@ public class Fire : MonoBehaviour
     public GameObject Owner;
 
     public ParticleSystem parts;
+
+    public float Damage;
+
+    public float FireLength;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,18 +26,18 @@ public class Fire : MonoBehaviour
 
     IEnumerator Burn()
     {
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < FireLength; i++)
         {
             if(Owner != null && Owner.GetComponent<EnemyIdentifier>() != null)
             {
                 Owner.GetComponent<EnemyIdentifier>().AI.Burning = true;
-                Owner.GetComponent<EnemyIdentifier>().AI.health -= 0.25f;
+                Owner.GetComponent<EnemyIdentifier>().AI.health -= Damage;
                 GameObject a = Instantiate(Prefabs.me.Misc[3], Owner.transform.position, Quaternion.identity);
                 Owner.GetComponent<EnemyIdentifier>().AI.aud.PlayOneShot(Owner.GetComponent<EnemyIdentifier>().AI.audio[1], 0.25f);
-                a.GetComponent<HealthChangeText>().Activate(-1 * 0.25f);
+                a.GetComponent<HealthChangeText>().Activate(-1 * Damage);
                 
             }
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
         }
         if(Owner != null){
         Owner.GetComponent<EnemyIdentifier>().AI.Burning = false;
@@ -49,6 +53,8 @@ public class Fire : MonoBehaviour
             GameObject f = Instantiate(Prefabs.me.PlaceableThings[2], other.transform.position, Quaternion.identity);
             f.transform.parent = TemplatesRooms.me.roomHolder;
             f.GetComponent<Fire>().Owner = other.gameObject;
+            f.GetComponent<Fire>().Damage = Damage;
+            f.GetComponent<Fire>().FireLength = FireLength;
         }
     }
 }
