@@ -192,7 +192,7 @@ public class Bullet : MonoBehaviour
             {
                 collision.transform.root.gameObject.GetComponent<Rigidbody2D>().linearVelocity += gameObject.GetComponent<Rigidbody2D>().linearVelocity * 0.1f;
                 collision.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.health -= damage;
-                collision.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.aud.PlayOneShot(collision.gameObject.GetComponent<EnemyIdentifier>().AI.audio[1], 0.25f);
+                collision.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.aud.PlayOneShot(collision.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.audio[1], 0.25f);
                 GameObject a = Instantiate(Prefabs.me.Misc[3], collision.transform.position, Quaternion.identity);
                 a.GetComponent<HealthChangeText>().Activate(-1 * damage);
                 

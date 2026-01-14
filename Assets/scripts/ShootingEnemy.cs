@@ -78,6 +78,10 @@ public class ShootingEnemy : BasicEnemy
             room.enemyCount++;
             room.budget -= cost;
         }
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+        agent.updatePosition = false;
+        InitVectorDrawers();
         
     }
 

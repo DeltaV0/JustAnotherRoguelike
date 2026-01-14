@@ -25,38 +25,76 @@ public class BasicEnemy : MonoBehaviour
 
     public bool Burning;
 
-    public Collider2D collider;
+    public Collider2D[] collider;
 
-    public LineRenderer outlineRenderer;
+    public Color[] colours;
+
+    public Material LineMat;
+
+    public List<GameObject> rederobjs = new List<GameObject>();
+
+    //private List<Vector2> vectors = new List<Vector2>();
+
+    public List<LineRenderer> Drawers = new List<LineRenderer>();
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Burning = false;
-        agent.updateRotation = false;
-        agent.updateUpAxis = false;
-        agent.updatePosition = false;
+        
+       // InitVectorDrawers();
+    }
+
+    public void InitVectorDrawers()
+    {
+        for(int p = 0; p < collider.Length; p++){
+        PhysicsShapeGroup2D phys = new PhysicsShapeGroup2D();
+        collider[p].GetShapes(phys);
+        for(int i = 0; i < phys.shapeCount; i++)
+        {
+            //List<Vector2> vectors2 = new List<Vector2>();
+            //phys.GetShapeVertices(i, vectors2);
+            //vectors.AddRange(vectors2);
+            GameObject g = new GameObject();
+            rederobjs.Add(g);
+            g.transform.parent = transform;
+            
+            LineRenderer lr = g.AddComponent(typeof(LineRenderer)) as LineRenderer;
+            lr.widthMultiplier = 0.1f;
+            lr.material = LineMat;
+            lr.loop = true;
+            Drawers.Add(lr);
+            
+        }
+        }
     }
 
     public void RenderLines()
     {
+        for(int p = 0; p < collider.Length; p++){
         PhysicsShapeGroup2D phys = new PhysicsShapeGroup2D();
-        collider.GetShapes(phys);
-        List<Vector2> vectors = new List<Vector2>();
-        for(int i = 0; i < phys.shapeCount; i++)
-        {
-            List<Vector2> vectors2 = new List<Vector2>();
-            phys.GetShapeVertices(i, vectors2);
-            vectors.AddRange(vectors2);
-        }
-        outlineRenderer.positionCount = vectors.Count;
-        outlineRenderer.loop = true;
+        collider[p].GetShapes(phys);
         Vector2 xAxis = new Vector2(Mathf.Cos(rb.rotation * Mathf.Deg2Rad), Mathf.Sin(rb.rotation * Mathf.Deg2Rad));
         Vector2 yAxis = new Vector2(-1 * xAxis.y, xAxis.x);
-        for(int i = 0; i < vectors.Count; i++)
-        {
-            outlineRenderer.SetPosition(i, new Vector3(vectors[i].x * xAxis.x + vectors[i].y *yAxis.x,vectors[i].x * xAxis.y + vectors[i].y*yAxis.y,0) + transform.position);
+        //List<Vector2> vectors = new List<Vector2>();
+        //for(int i = 0; i < collider.Length; i++)
+        //{
+            List<Vector2> vectors2 = new List<Vector2>();
+            phys.GetShapeVertices(0, vectors2);
+            Drawers[p].positionCount = vectors2.Count;
+            Drawers[p].endColor = colours[p];
+            Drawers[p].startColor = colours[p];
+            for(int q = 0; q < vectors2.Count; q++)
+            {
+            Drawers[p].SetPosition(q, new Vector3(vectors2[q].x * xAxis.x + vectors2[q].y *yAxis.x,vectors2[q].x * xAxis.y + vectors2[q].y*yAxis.y,0) + transform.position);
+            }
+            
+        //}
         }
+        
+        //outlineRenderer.loop = true;
+        
+        
     }
 
     public void heal(float h){
