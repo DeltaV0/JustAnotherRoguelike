@@ -84,6 +84,7 @@ public class ShootingEnemy : BasicEnemy
     // Update is called once per frame
     void Update()
     {   
+        
         if(AItimer <= 0){
             AItimer = Random.Range(AISpeed[0], AISpeed[1]);
             AIType = UnityEngine.Random.Range(0, 3);
@@ -161,7 +162,7 @@ public class ShootingEnemy : BasicEnemy
     }
 
     void FixedUpdate(){
-        
+        RenderLines();
         if(AIType == 0){
         agent.SetDestination(TemplatesRooms.me.player.transform.position);
         } else if(AIType == 2){
