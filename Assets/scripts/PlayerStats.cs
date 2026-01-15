@@ -47,6 +47,10 @@ public class PlayerStats : MonoBehaviour
 
     public float Zaplevel;
 
+    public float StunTimer;
+
+    public float BulletSlow;
+
     public void ChangeStat(int ID, float add, float mult){
         if(ID == 0){
             Damage = (Damage * mult) + add;
@@ -82,6 +86,10 @@ public class PlayerStats : MonoBehaviour
             FireLength = (int)((FireLength * mult) + add);
         } else if(ID == 16){
             Zaplevel = (int)((Zaplevel * mult) + add);
+        } else if(ID == 17){
+            StunTimer = (int)((StunTimer * mult) + add);
+        } else if(ID == 18){
+            BulletSlow = (int)((BulletSlow * mult) + add);
         }
     }
 

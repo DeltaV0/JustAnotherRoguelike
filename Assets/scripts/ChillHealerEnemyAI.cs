@@ -58,19 +58,7 @@ public class ChillHealerEnemyAI : BasicEnemy
     // Update is called once per frame
     void Update()
     {
-        if(AItimer <= 0){
-            AItimer = Random.Range(AISpeed[0], AISpeed[1]);
-            AIType = Random.Range(0, 3);
-            if(AIType == 1){
-                agent.SetDestination(new Vector3(Random.Range(-10f, 10f), Random.Range(-10f, 10f), 0) + room.transform.position);
-            }
-        }
         healthBar.fillAmount = (float)health / (float)maxHealth;
-        transform.rotation = Quaternion.Euler(0, 0, transform.rotation.z);
-        Vector3 curreul = new Vector3(0, 0, rb.rotation);//Mathf.LerpAngle(transform.rotation.z, aimAngleP, 1f));
-        
-        transform.rotation = Quaternion.Euler(curreul) ;
-
         if(health <= 0){
             Instantiate(Prefabs.me.enemyDeath[0], transform.position, transform.rotation);
             room.enemyCount--;
@@ -86,13 +74,29 @@ public class ChillHealerEnemyAI : BasicEnemy
             }
             Destroy(gameObject);
         }
+        
+        if(!Stunned){
+        if(AItimer <= 0){
+            AItimer = Random.Range(AISpeed[0], AISpeed[1]);
+            AIType = Random.Range(0, 3);
+            if(AIType == 1){
+                agent.SetDestination(new Vector3(Random.Range(-10f, 10f), Random.Range(-10f, 10f), 0) + room.transform.position);
+            }
+        }
+        
+        transform.rotation = Quaternion.Euler(0, 0, transform.rotation.z);
+        Vector3 curreul = new Vector3(0, 0, rb.rotation);//Mathf.LerpAngle(transform.rotation.z, aimAngleP, 1f));
+        
+        transform.rotation = Quaternion.Euler(curreul) ;
+
+        
 
         if (healtimer <= 0)
         {
             aud.pitch = Random.Range(0.8f, 1.2f);
             aud.PlayOneShot(audio[0], 0.25f);
             parts.Play();
-            healtimer = maxHealTimer;
+            healtimer = (int)(maxHealTimer / speedMult);
             foreach(BasicEnemy e in TemplatesRooms.me.player.enemiesInRoom){
                 e.heal(1f);
             }
@@ -100,10 +104,13 @@ public class ChillHealerEnemyAI : BasicEnemy
 
            
         }
+        }
     }
 
     void FixedUpdate(){
         RenderLines();
+        if(!Stunned){
+        speedMult = Mathf.Lerp(speedMult, 1f, 0.005f);
         Vector3 aimDirectionP = new Vector3(transform.root.position.x, transform.root.position.y, 0) - TemplatesRooms.me.player.transform.position - (Vector3)(TemplatesRooms.me.player.rb.linearVelocity * 0.75f * (Vector3.Distance(transform.position, TemplatesRooms.me.player.transform.position) * 0.1f) );
 
         float aimAngleP = Mathf.Atan2(aimDirectionP.y, aimDirectionP.x) * Mathf.Rad2Deg + 90f;
@@ -126,6 +133,7 @@ public class ChillHealerEnemyAI : BasicEnemy
         if (AItimer > 0) {
             AItimer--;
         }
-        rb.linearVelocity = Vector3.Lerp((Vector3)rb.linearVelocity, agent.desiredVelocity, 0.05f);
+        }
+        rb.linearVelocity = Vector3.Lerp((Vector3)rb.linearVelocity, (agent.desiredVelocity * (Stunned ? 0f : 1f)) * speedMult, 0.05f);
     }
 }

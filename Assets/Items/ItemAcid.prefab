@@ -510,7 +510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Acid
-  desc: + 0.5 Acid Radius, +1s max reload
+  desc: +1s max reload\nBullets leave damaging acid puddles on the ground.
   ID: 1
   price: 0
   basePrice: 4

@@ -43,6 +43,7 @@ public class ShootingEnemy : BasicEnemy
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        speedMult = 1f;
         AIType = UnityEngine.Random.Range(0, 3);
         TemplatesRooms.me.player.enemiesInRoom.Add(this);
         maxHealth *= UnityEngine.Random.Range(0.95f, 1f + (((float)PlayerStats.me.Level - 1f )/ 3f));
@@ -88,20 +89,6 @@ public class ShootingEnemy : BasicEnemy
     // Update is called once per frame
     void Update()
     {   
-        
-        if(AItimer <= 0){
-            AItimer = Random.Range(AISpeed[0], AISpeed[1]);
-            AIType = UnityEngine.Random.Range(0, 3);
-            if(AIType == 1){
-                agent.SetDestination(new Vector3(UnityEngine.Random.Range(-10f, 10f), UnityEngine.Random.Range(-10f, 10f), 0) + room.transform.position);
-            }
-        }
-        healthBar.fillAmount = (float)health / (float)maxHealth;
-        transform.rotation = Quaternion.Euler(0, 0, transform.rotation.z);
-        Vector3 curreul = new Vector3(0, 0, rb.rotation);//Mathf.LerpAngle(transform.rotation.z, aimAngleP, 1f));
-        
-        transform.rotation = Quaternion.Euler(curreul) ;
-       
         if(health <= 0){
             Instantiate(Prefabs.me.enemyDeath[0], transform.position, transform.rotation);
             room.enemyCount--;
@@ -117,6 +104,23 @@ public class ShootingEnemy : BasicEnemy
             }
             Destroy(gameObject);
         }
+        healthBar.fillAmount = (float)health / (float)maxHealth;
+        
+        if(!Stunned){
+        if(AItimer <= 0){
+            AItimer = Random.Range(AISpeed[0], AISpeed[1]);
+            AIType = UnityEngine.Random.Range(0, 3);
+            if(AIType == 1){
+                agent.SetDestination(new Vector3(UnityEngine.Random.Range(-10f, 10f), UnityEngine.Random.Range(-10f, 10f), 0) + room.transform.position);
+            }
+        }
+        
+        transform.rotation = Quaternion.Euler(0, 0, transform.rotation.z);
+        Vector3 curreul = new Vector3(0, 0, rb.rotation);//Mathf.LerpAngle(transform.rotation.z, aimAngleP, 1f));
+        
+        transform.rotation = Quaternion.Euler(curreul);
+       
+        
 
         if (timer <= 0)
         {
@@ -124,10 +128,11 @@ public class ShootingEnemy : BasicEnemy
 
            
         }
+        }
     }
 
     IEnumerator Fire(){
-        timer = averageMaxShootTimer + UnityEngine.Random.Range(-10, 10);
+        timer = (int)((averageMaxShootTimer + UnityEngine.Random.Range(-10, 10)) / speedMult);
         for(int q = 0; q < burstSize; q++){
             
             aud.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
@@ -161,12 +166,14 @@ public class ShootingEnemy : BasicEnemy
                 //rb.linearVelocity = new Vector2(0, 0);
             }
             }
-            yield return new WaitForSecondsRealtime(BurstSpeed);
+            yield return new WaitForSeconds(BurstSpeed / speedMult);
         }
     }
 
     void FixedUpdate(){
         RenderLines();
+        if(!Stunned){
+        speedMult = Mathf.Lerp(speedMult, 1f, 0.005f);
         if(AIType == 0){
         agent.SetDestination(TemplatesRooms.me.player.transform.position);
         } else if(AIType == 2){
@@ -190,7 +197,7 @@ public class ShootingEnemy : BasicEnemy
         }
         float aimAngleP = Mathf.Atan2(aimDirectionP.y, aimDirectionP.x) * Mathf.Rad2Deg + 90f;
         if(constantRot == 0){
-            rb.angularVelocity = (rb.rotation - (Mathf.LerpAngle(rb.rotation+ 180f, aimAngleP + 180f, turnspeed) - 180f)) * -30f;
+            rb.angularVelocity = (rb.rotation - (Mathf.LerpAngle(rb.rotation+ 180f, aimAngleP + 180f, turnspeed * speedMult) - 180f)) * -30f;
         } else {
            // rb.rotation += constantRot;
             rb.angularVelocity = constantRot;
@@ -218,6 +225,7 @@ public class ShootingEnemy : BasicEnemy
         if (AItimer > 0) {
             AItimer--;
         }
-        rb.linearVelocity = Vector3.Lerp((Vector3)rb.linearVelocity, agent.desiredVelocity, 0.05f);
+        }
+        rb.linearVelocity = Vector3.Lerp((Vector3)rb.linearVelocity, (agent.desiredVelocity * (Stunned ? 0f : 1f)) * speedMult, 0.05f);
     }
 }

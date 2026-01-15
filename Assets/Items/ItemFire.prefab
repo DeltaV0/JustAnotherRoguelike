@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Flame
-  desc: + 5 sec fire duration, -10% damage
+  desc: -10% damage\nBullets light enemies on fire, dealing damage over time.
   ID: 14
   price: 0
   basePrice: 6

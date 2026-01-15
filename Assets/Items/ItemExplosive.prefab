@@ -374,7 +374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: High Explosive
-  desc: '- 25% damage, bullet speed, and firerate\nBullets Explode on Impace'
+  desc: '- 25% damage, bullet speed, and firerate\nBullets Explode on Impact'
   ID: 3
   price: 0
   basePrice: 4

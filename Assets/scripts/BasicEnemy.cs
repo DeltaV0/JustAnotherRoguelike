@@ -31,6 +31,10 @@ public class BasicEnemy : MonoBehaviour
 
     public Material LineMat;
 
+    public bool Stunned;
+
+    public float speedMult;
+
     public List<GameObject> rederobjs = new List<GameObject>();
 
     //private List<Vector2> vectors = new List<Vector2>();
@@ -43,6 +47,23 @@ public class BasicEnemy : MonoBehaviour
         Burning = false;
         
        // InitVectorDrawers();
+    }
+
+    public void Stun(float time){
+        StartCoroutine(st(time));
+    }
+
+    IEnumerator st(float time){
+        Stunned = true;
+        for(int i = 0; i < (int)(50f * time); i++){
+            Stunned = true;
+            yield return new WaitForSeconds(0.02f);
+        }
+        Stunned = false;
+    }
+
+    public void Slow(float slow){
+        speedMult = slow;
     }
 
     public void InitVectorDrawers()

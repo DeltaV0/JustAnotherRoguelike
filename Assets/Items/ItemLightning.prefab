@@ -134,7 +134,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Charged
-  desc: + 1 electric, + 1s reload, - 20% damage
+  desc: + 1s reload, - 20% damage\nElectricity chains between enemies, dealing damage
+    to each.
   ID: 14
   price: 0
   basePrice: 6

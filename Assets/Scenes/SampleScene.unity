@@ -465,6 +465,8 @@ MonoBehaviour:
   FireLength: 0
   acidLevel: 0
   Zaplevel: 0
+  StunTimer: 0
+  BulletSlow: 1
 --- !u!4 &332974634
 Transform:
   m_ObjectHideFlags: 0
