@@ -60,7 +60,7 @@ public class BasicEnemy : MonoBehaviour
             g.transform.parent = transform;
             
             LineRenderer lr = g.AddComponent(typeof(LineRenderer)) as LineRenderer;
-            lr.widthMultiplier = 0.1f;
+            lr.widthMultiplier = 0.05f;
             lr.material = LineMat;
             lr.loop = true;
             Drawers.Add(lr);
@@ -84,6 +84,7 @@ public class BasicEnemy : MonoBehaviour
             Drawers[p].positionCount = vectors2.Count;
             Drawers[p].endColor = colours[p];
             Drawers[p].startColor = colours[p];
+            Drawers[p].sortingOrder = 3 + p;
             for(int q = 0; q < vectors2.Count; q++)
             {
             Drawers[p].SetPosition(q, new Vector3(vectors2[q].x * xAxis.x + vectors2[q].y *yAxis.x,vectors2[q].x * xAxis.y + vectors2[q].y*yAxis.y,0) + transform.position);

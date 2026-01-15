@@ -45,6 +45,8 @@ public class PlayerStats : MonoBehaviour
 
     public float acidLevel;
 
+    public float Zaplevel;
+
     public void ChangeStat(int ID, float add, float mult){
         if(ID == 0){
             Damage = (Damage * mult) + add;
@@ -78,6 +80,8 @@ public class PlayerStats : MonoBehaviour
             explosionPower = ((explosionPower * mult) + add);
         } else if(ID == 15){
             FireLength = (int)((FireLength * mult) + add);
+        } else if(ID == 16){
+            Zaplevel = (int)((Zaplevel * mult) + add);
         }
     }
 

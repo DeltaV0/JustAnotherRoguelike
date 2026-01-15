@@ -32,7 +32,7 @@ public class Item : MonoBehaviour
 
     public bool unique;
 
-    [Tooltip("IMPORTANT:\n0: Damage (float)\n1: Bullet Speed (float)\n2: Shots (Int)\n3: Inaccuracy (float)\n4: Max Ammo (Int)\n5: Max Reload (Int) (Timer)\n6: FireSpeed (Int) (Timer)\n7: Homing Power (float)\n8: Bounces (Int)\n9: Player Max Health (float)\n10: Move Speed (float)\n11: Dash Cooldown (Int) (Timer)\n12: Explosion Level (float)\n13: Acid Level (float)\n14: Explosion Power (float)\n15: Fire Length (int) (Seconds)")]
+    [Tooltip("IMPORTANT:\n0: Damage (float)\n1: Bullet Speed (float)\n2: Shots (Int)\n3: Inaccuracy (float)\n4: Max Ammo (Int)\n5: Max Reload (Int) (Timer)\n6: FireSpeed (Int) (Timer)\n7: Homing Power (float)\n8: Bounces (Int)\n9: Player Max Health (float)\n10: Move Speed (float)\n11: Dash Cooldown (Int) (Timer)\n12: Explosion Level (float)\n13: Acid Level (float)\n14: Explosion Power (float)\n15: Fire Length (int) (Seconds)\n16: Electric (float)")]
     public Effect[] effects;
 
    // public GameObject Interactible;

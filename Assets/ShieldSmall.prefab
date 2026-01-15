@@ -142,7 +142,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3306090216319557371}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 703755dc82628be44a3632d65eeeef6d, type: 3}
   m_Name: 
@@ -152,6 +152,8 @@ MonoBehaviour:
   rechargeTimerMax: 200
   collider: {fileID: 6284352124402211119}
   shield: {fileID: 3306090216319557371}
+  owner: {fileID: 0}
+  player: 0
 --- !u!1 &8719427690646316551
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,6 +163,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 720526912303957146}
+  - component: {fileID: 398666168711567270}
   m_Layer: 7
   m_Name: ShieldSmall
   m_TagString: Shield
@@ -184,3 +187,22 @@ Transform:
   - {fileID: 2792858127398112596}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &398666168711567270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8719427690646316551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 703755dc82628be44a3632d65eeeef6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shieldHealth: 2
+  shieldMaxHealth: 2
+  rechargeTimerMax: 200
+  collider: {fileID: 6284352124402211119}
+  shield: {fileID: 3306090216319557371}
+  owner: {fileID: 0}
+  player: 0

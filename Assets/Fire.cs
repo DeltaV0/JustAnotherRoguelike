@@ -48,11 +48,11 @@ public class Fire : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Enemy") &&  !other.gameObject.GetComponent<EnemyIdentifier>().AI.Burning)
+        if (other.CompareTag("Enemy") &&  !other.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.Burning)
         {
             GameObject f = Instantiate(Prefabs.me.PlaceableThings[2], other.transform.position, Quaternion.identity);
             f.transform.parent = TemplatesRooms.me.roomHolder;
-            f.GetComponent<Fire>().Owner = other.gameObject;
+            f.GetComponent<Fire>().Owner = other.transform.root.gameObject;
             f.GetComponent<Fire>().Damage = Damage;
             f.GetComponent<Fire>().FireLength = FireLength;
         }

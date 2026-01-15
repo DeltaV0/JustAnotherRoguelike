@@ -32,14 +32,14 @@ public class Acid : MonoBehaviour
         if(timer <= 0){
         if(other.CompareTag("Enemy")){
                 //col.transform.gameObject.GetComponent<Rigidbody2D>().linearVelocity += (Vector2)(col.transform.root.position - transform.position).normalized * Power;
-                other.gameObject.GetComponent<EnemyIdentifier>().AI.health -= Power;
+                other.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.health -= Power;
                 GameObject a = Instantiate(Prefabs.me.Misc[3], other.transform.position, Quaternion.identity);
                 a.GetComponent<HealthChangeText>().Activate(-1 * Power);
                 //col.gameObject.GetComponent<EnemyIdentifier>().AI.aud.PlayOneShot(col.gameObject.GetComponent<EnemyIdentifier>().AI.audio[1], 0.25f);
             }
             if(other.CompareTag("Player")){
                 //col.transform.gameObject.GetComponent<Rigidbody2D>().linearVelocity += (Vector2)(col.transform.root.position - transform.position).normalized * Power;
-                other.gameObject.GetComponent<Player>().Hurt(Power);
+                other.transform.root.gameObject.GetComponent<Player>().Hurt(Power);
                 //col.gameObject.GetComponent<Player>().aud.PlayOneShot(col.gameObject.GetComponent<Player>().audio[1], 0.25f);
             }
         }

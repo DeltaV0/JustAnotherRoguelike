@@ -50,6 +50,9 @@ public class Bullet : MonoBehaviour
     {
         if(bnce){
             ColParts();
+            if(player && PlayerStats.me.Zaplevel > 0){
+            Zap();
+        }
             if(explosionLevel > 0){
                 SpawnExplosion();
             }
@@ -116,6 +119,9 @@ public class Bullet : MonoBehaviour
     }
 
     void OnDisable(){
+        if(player && PlayerStats.me.Zaplevel > 0){
+            Zap();
+        }
             if(explosionLevel > 0){
                 SpawnExplosion();
             }
@@ -139,6 +145,13 @@ public class Bullet : MonoBehaviour
             f.GetComponent<Fire>().FireLength = fireLevel;
             //f.GetComponent<Fire>().Owner = Target;
         
+    }
+
+    public void Zap(){
+        GameObject g = Instantiate(Prefabs.me.PlaceableThings[3], transform.position, Quaternion.identity);
+        g.GetComponent<Lightning>().Damage = damage * 0.25f;
+       // aud.pitch = Random.Range(0.8f, 1.2f);
+        //    aud.PlayOneShot(audio[1], 0.1f);
     }
 
     public void SpawnExplosion(){
@@ -210,7 +223,7 @@ public class Bullet : MonoBehaviour
             } else if(collision.collider.CompareTag("Shield") && !collision.gameObject.GetComponent<Shield>().player){
                 //collision.transform.root.gameObject.GetComponent<Rigidbody2D>().linearVelocity += gameObject.GetComponent<Rigidbody2D>().linearVelocity * 0.1f;
                 
-                collision.gameObject.GetComponent<Shield>().Hit(damage);
+                collision.transform.root.gameObject.GetComponent<Shield>().Hit(damage);
                 if(bounces <= 0){
                     trail.Stop();
                     trail.transform.parent = TemplatesRooms.me.roomHolder;

@@ -49,6 +49,10 @@ public class ChillHealerEnemyAI : BasicEnemy
             room.enemyCount++;
             room.budget -= cost;
         }
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+        agent.updatePosition = false;
+        InitVectorDrawers();
     }
 
     // Update is called once per frame
@@ -99,6 +103,7 @@ public class ChillHealerEnemyAI : BasicEnemy
     }
 
     void FixedUpdate(){
+        RenderLines();
         Vector3 aimDirectionP = new Vector3(transform.root.position.x, transform.root.position.y, 0) - TemplatesRooms.me.player.transform.position - (Vector3)(TemplatesRooms.me.player.rb.linearVelocity * 0.75f * (Vector3.Distance(transform.position, TemplatesRooms.me.player.transform.position) * 0.1f) );
 
         float aimAngleP = Mathf.Atan2(aimDirectionP.y, aimDirectionP.x) * Mathf.Rad2Deg + 90f;
