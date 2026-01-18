@@ -40,6 +40,18 @@ public class ShootingEnemy : BasicEnemy
     public float[] ShotMinMaxAngle;
 
     public float constantRot;
+
+    /*[System.Serializable]
+    public class BulletPattern{
+
+        public bool HardCoded;
+
+        public int stat;
+        public float ADD;
+        public float MULT;
+    }
+
+    public BulletPattern[] Patterns;*/
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -173,7 +185,7 @@ public class ShootingEnemy : BasicEnemy
     void FixedUpdate(){
         RenderLines();
         if(!Stunned){
-        speedMult = Mathf.Lerp(speedMult, 1f, 0.005f);
+        //speedMult = Mathf.Lerp(speedMult, 1f, 0.005f);
         if(AIType == 0){
         agent.SetDestination(TemplatesRooms.me.player.transform.position);
         } else if(AIType == 2){

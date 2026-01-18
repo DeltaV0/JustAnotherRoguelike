@@ -68,7 +68,7 @@ public class ConstantLazer : MonoBehaviour
             LerpBetween((Vector3)hit.point);
             hit = Physics2D.Raycast(transform.position, transform.up,25f, LayerMask.GetMask("Wall"));
             RaycastHit2D hit2 = Physics2D.BoxCast((Vector2)transform.position, new Vector2(BeamWidth, BeamWidth), transform.eulerAngles.z, transform.up, Vector3.Distance(transform.position, hit.point), LayerMask.GetMask("Player"));
-            if(hit2){
+            if(hit2 && TemplatesRooms.me.player.DashTimer[1] > 0){
                 TemplatesRooms.me.player.Hurt(damage);
             }
             gos[0].widthMultiplier = BeamWidth;

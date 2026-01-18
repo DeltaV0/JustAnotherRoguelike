@@ -8,6 +8,8 @@ public class Acid : MonoBehaviour
     private bool active;
 
     private int timer;
+
+    public bool PlayerActivated;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -35,6 +37,10 @@ public class Acid : MonoBehaviour
                 other.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.health -= Power;
                 GameObject a = Instantiate(Prefabs.me.Misc[3], other.transform.position, Quaternion.identity);
                 a.GetComponent<HealthChangeText>().Activate(-1 * Power);
+                if(PlayerActivated && PlayerStats.me.Zaplevel > 0){
+                    GameObject g = Instantiate(Prefabs.me.PlaceableThings[3], other.transform.position, Quaternion.identity);
+                    g.GetComponent<Lightning>().Damage = Power * 0.1f;
+                }
                 //col.gameObject.GetComponent<EnemyIdentifier>().AI.aud.PlayOneShot(col.gameObject.GetComponent<EnemyIdentifier>().AI.audio[1], 0.25f);
             }
             if(other.CompareTag("Player")){

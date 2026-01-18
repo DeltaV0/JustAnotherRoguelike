@@ -37,9 +37,12 @@ public class Bullet : MonoBehaviour
     public float acidLevel;
 
     public float fireLevel;
+
+    private EnemyIdentifier hitEnemy;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        hitEnemy = null;
         bnce = false;
         //bounces = 2;
         initVel = rb.linearVelocity.magnitude;
@@ -49,6 +52,15 @@ public class Bullet : MonoBehaviour
     void FixedUpdate()
     {
         if(bnce){
+            if(hitEnemy != null){
+                hitEnemy.AI.health -= damage;
+                hitEnemy.AI.Stun(PlayerStats.me.StunTimer);
+                hitEnemy.AI.Slow(PlayerStats.me.BulletSlow);
+                hitEnemy.AI.aud.PlayOneShot(hitEnemy.AI.audio[1], 0.25f);
+                GameObject a = Instantiate(Prefabs.me.Misc[3], hitEnemy.gameObject.transform.position, Quaternion.identity);
+                a.GetComponent<HealthChangeText>().Activate(-1 * damage);
+                hitEnemy = null;
+            }
             ColParts();
             if(player && PlayerStats.me.Zaplevel > 0){
             Zap();
@@ -119,6 +131,15 @@ public class Bullet : MonoBehaviour
     }
 
     void OnDisable(){
+        if(hitEnemy != null){
+                hitEnemy.AI.health -= damage;
+                hitEnemy.AI.Stun(PlayerStats.me.StunTimer);
+                hitEnemy.AI.Slow(PlayerStats.me.BulletSlow);
+                hitEnemy.AI.aud.PlayOneShot(hitEnemy.AI.audio[1], 0.25f);
+                GameObject a = Instantiate(Prefabs.me.Misc[3], hitEnemy.gameObject.transform.position, Quaternion.identity);
+                a.GetComponent<HealthChangeText>().Activate(-1 * damage);
+                hitEnemy = null;
+            }
         if(player && PlayerStats.me.Zaplevel > 0){
             Zap();
         }
@@ -159,6 +180,7 @@ public class Bullet : MonoBehaviour
         g.transform.parent = TemplatesRooms.me.roomHolder;
         g.GetComponent<Explosion>().Power = damage * explosionPower;
         g.GetComponent<Explosion>().Radius = damage * 0.1f + explosionLevel;
+        g.GetComponent<Explosion>().PlayerActivated = player;
         g.GetComponent<Explosion>().Boom();
        // aud.pitch = Random.Range(0.8f, 1.2f);
         //    aud.PlayOneShot(audio[1], 0.1f);
@@ -169,6 +191,7 @@ public class Bullet : MonoBehaviour
         g.transform.parent = TemplatesRooms.me.roomHolder;
         g.GetComponent<Acid>().Power = damage * 0.25f;
         g.GetComponent<Acid>().Radius = damage * 0.1f + acidLevel;
+        g.GetComponent<Acid>().PlayerActivated = player;
         g.GetComponent<Acid>().Activate();
         //aud.pitch = Random.Range(0.8f, 1.2f);
          //   aud.PlayOneShot(audio[2], 0.1f);
@@ -203,13 +226,9 @@ public class Bullet : MonoBehaviour
             
             if (collision.collider.CompareTag("Enemy"))
             {
+                hitEnemy = collision.transform.root.gameObject.GetComponent<EnemyIdentifier>();
                 collision.transform.root.gameObject.GetComponent<Rigidbody2D>().linearVelocity += gameObject.GetComponent<Rigidbody2D>().linearVelocity * 0.1f;
-                collision.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.health -= damage;
-                collision.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.Stun(PlayerStats.me.StunTimer);
-                collision.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.Slow(PlayerStats.me.BulletSlow);
-                collision.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.aud.PlayOneShot(collision.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.audio[1], 0.25f);
-                GameObject a = Instantiate(Prefabs.me.Misc[3], collision.transform.position, Quaternion.identity);
-                a.GetComponent<HealthChangeText>().Activate(-1 * damage);
+                
                 
                 if(bounces <= 0){
                     trail.Stop();

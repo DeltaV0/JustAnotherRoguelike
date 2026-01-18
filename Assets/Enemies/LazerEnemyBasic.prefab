@@ -356,7 +356,9 @@ MonoBehaviour:
   - {fileID: 31944417542551587}
   colours:
   - {r: 0.5613208, g: 0.9725701, b: 1, a: 1}
-  LineMat: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  LineMat: {fileID: -876546973899608171, guid: 85f648d5af69a5249a363bbcd5a50270, type: 3}
+  Stunned: 0
+  speedMult: 0
   rederobjs: []
   Drawers: []
   timer: 50

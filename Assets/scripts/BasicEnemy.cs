@@ -63,7 +63,16 @@ public class BasicEnemy : MonoBehaviour
     }
 
     public void Slow(float slow){
+        StartCoroutine(Sl(slow));
+    }
+
+    IEnumerator Sl(float slow){
         speedMult = slow;
+        for(int i = 0; i < (int)(50 * 5); i++){
+            speedMult = slow;
+            yield return new WaitForSeconds(0.02f);
+        }
+        speedMult = 1f;
     }
 
     public void InitVectorDrawers()

@@ -9,6 +9,8 @@ public class Explosion : MonoBehaviour
 
     public ParticleSystem partsmain;
     public ParticleSystem partseff;
+
+    public bool PlayerActivated;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -31,6 +33,17 @@ public class Explosion : MonoBehaviour
                 col.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.aud.PlayOneShot(col.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.audio[1], 0.25f);
                 GameObject a = Instantiate(Prefabs.me.Misc[3], col.transform.position, Quaternion.identity);
                 a.GetComponent<HealthChangeText>().Activate(-1 * Power);
+                if(PlayerActivated && PlayerStats.me.Zaplevel > 0){
+                    GameObject g = Instantiate(Prefabs.me.PlaceableThings[3], col.transform.position, Quaternion.identity);
+                    g.GetComponent<Lightning>().Damage = Power * 0.1f;
+                }
+                if(PlayerActivated && PlayerStats.me.FireLength > 0){
+                    GameObject f = Instantiate(Prefabs.me.PlaceableThings[2], col.transform.position, Quaternion.identity);
+                    f.transform.parent = TemplatesRooms.me.roomHolder;
+                    f.GetComponent<Fire>().Owner = col.transform.root.gameObject;
+                    f.GetComponent<Fire>().Damage = Power * 0.1f;
+                    f.GetComponent<Fire>().FireLength = PlayerStats.me.FireLength;
+                }
             }
             if(col.CompareTag("Shield")){
                 alreadyHit.Add(col.transform.root.gameObject);

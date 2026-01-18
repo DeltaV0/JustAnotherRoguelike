@@ -110,7 +110,7 @@ public class ChillHealerEnemyAI : BasicEnemy
     void FixedUpdate(){
         RenderLines();
         if(!Stunned){
-        speedMult = Mathf.Lerp(speedMult, 1f, 0.005f);
+        //speedMult = Mathf.Lerp(speedMult, 1f, 0.005f);
         Vector3 aimDirectionP = new Vector3(transform.root.position.x, transform.root.position.y, 0) - TemplatesRooms.me.player.transform.position - (Vector3)(TemplatesRooms.me.player.rb.linearVelocity * 0.75f * (Vector3.Distance(transform.position, TemplatesRooms.me.player.transform.position) * 0.1f) );
 
         float aimAngleP = Mathf.Atan2(aimDirectionP.y, aimDirectionP.x) * Mathf.Rad2Deg + 90f;
