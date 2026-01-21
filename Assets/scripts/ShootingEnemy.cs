@@ -4,6 +4,7 @@ using System.Collections;
 
 public class ShootingEnemy : BasicEnemy
 {
+    [Header("Actual Enemy Variables")]
     public int timer;
 
     public Image healthBar;
@@ -53,6 +54,7 @@ public class ShootingEnemy : BasicEnemy
         public float[] BurstMinMaxAngle;
         public float[] ShotMinMaxAngle;
     }
+    [Header("Bullet Patterns")]
 
     public BulletPattern[] Patterns;
 
