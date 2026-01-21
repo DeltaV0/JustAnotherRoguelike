@@ -129,26 +129,28 @@ MonoBehaviour:
   timer: 50
   healthBar: {fileID: 8419159993608424498}
   AItimer: 0
-  innacuracy: 45
-  fireForce: 5
-  bulletPrefab: {fileID: 5584421973790788568, guid: 021c9ddff1a5aa148ae6aa046b99c9c1, type: 3}
-  shots: 6
   AIType: 0
   averageMaxShootTimer: 250
   AISpeed: 4b000000c9000000
   turnspeed: 0.05
   CanSeePlayer: 0
-  LazerOneShotType: 0
   waitaftershooting: 0
-  burstSize: 1
-  BurstSpeed: 0
-  BurstMinMaxAngle:
-  - 0
-  - 0
-  ShotMinMaxAngle:
-  - 0
-  - 0
   constantRot: 0
+  Patterns:
+  - fireForce: 5
+    innacuracy: 90
+    bulletPrefab: {fileID: 5584421973790788568, guid: 021c9ddff1a5aa148ae6aa046b99c9c1, type: 3}
+    shots: 10
+    LazerOneShotType: 0
+    burstSize: 1
+    BurstSpeed: 0
+    BurstMinMaxAngle:
+    - 0
+    - 0
+    ShotMinMaxAngle:
+    - 0
+    - 0
+  currentPattern: 0
 --- !u!61 &8250035248884056697
 BoxCollider2D:
   m_ObjectHideFlags: 0

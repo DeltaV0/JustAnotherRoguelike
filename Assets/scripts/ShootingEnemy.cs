@@ -10,13 +10,13 @@ public class ShootingEnemy : BasicEnemy
 
     public int AItimer;
 
-    public float innacuracy;
+    
 
-    public float fireForce;
+    
 
-    public GameObject bulletPrefab;
+    
 
-    public int shots;
+    
 
     public int AIType;
 
@@ -28,34 +28,40 @@ public class ShootingEnemy : BasicEnemy
 
     public bool CanSeePlayer;
 
-    public bool LazerOneShotType;
+    
 
     public int waitaftershooting;
 
-    public int burstSize;
+    
 
-    public float BurstSpeed;
+    
 
-    public float[] BurstMinMaxAngle;
-    public float[] ShotMinMaxAngle;
+    
+    
 
     public float constantRot;
 
-    /*[System.Serializable]
+    [System.Serializable]
     public class BulletPattern{
-
-        public bool HardCoded;
-
-        public int stat;
-        public float ADD;
-        public float MULT;
+        public float fireForce;
+        public float innacuracy;
+        public GameObject bulletPrefab;
+        public int shots;
+        public bool LazerOneShotType;
+        public int burstSize;
+        public float BurstSpeed;
+        public float[] BurstMinMaxAngle;
+        public float[] ShotMinMaxAngle;
     }
 
-    public BulletPattern[] Patterns;*/
+    public BulletPattern[] Patterns;
+
+    public int currentPattern;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         speedMult = 1f;
+        currentPattern = 0;
         AIType = UnityEngine.Random.Range(0, 3);
         TemplatesRooms.me.player.enemiesInRoom.Add(this);
         maxHealth *= UnityEngine.Random.Range(0.95f, 1f + (((float)PlayerStats.me.Level - 1f )/ 3f));
@@ -136,32 +142,39 @@ public class ShootingEnemy : BasicEnemy
 
         if (timer <= 0)
         {
-            StartCoroutine(Fire());
-
+            
+            StartCoroutine(Fire(currentPattern));
+            if(currentPattern < Patterns.Length - 1)
+                {
+                    currentPattern++;
+                } else
+                {
+                    currentPattern = 0;
+                }
            
         }
         }
     }
 
-    IEnumerator Fire(){
+    IEnumerator Fire(int pattern){
         timer = (int)((averageMaxShootTimer + UnityEngine.Random.Range(-10, 10)) / speedMult);
-        for(int q = 0; q < burstSize; q++){
+        for(int q = 0; q < Patterns[pattern].burstSize; q++){
             
             aud.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
             aud.PlayOneShot(audio[0], 0.25f);
             
 
-            for (int i = 0; i < shots; i++) {
-            GameObject bullet = (GameObject)Instantiate(bulletPrefab, transform.position, transform.rotation);
+            for (int i = 0; i < Patterns[pattern].shots; i++) {
+            GameObject bullet = (GameObject)Instantiate(Patterns[pattern].bulletPrefab, transform.position, transform.rotation);
 
             //Vector2 aimDirection = new Vector2(transform.position.x, transform.position.y) - (Vector2)TemplatesRooms.me.player.transform.position - (Vector2)(TemplatesRooms.me.player.rb.linearVelocity * 0.25f);
 
             //float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg + 90f + Random.Range(-1f * (innacuracy * 0.5f), (innacuracy * 0.5f));
-            if(!LazerOneShotType){
-            bullet.GetComponent<Rigidbody2D>().rotation = rb.rotation + UnityEngine.Random.Range(-1f * (innacuracy * 0.5f), (innacuracy * 0.5f))  + (Mathf.Lerp(BurstMinMaxAngle[0], BurstMinMaxAngle[1], (float)q / ((float)burstSize - 0.99f)) + Mathf.Lerp(ShotMinMaxAngle[0], ShotMinMaxAngle[1], (float)i / ((float)shots - 0.99f)));
+            if(!Patterns[pattern].LazerOneShotType){
+            bullet.GetComponent<Rigidbody2D>().rotation = rb.rotation + UnityEngine.Random.Range(-1f * (Patterns[pattern].innacuracy * 0.5f), (Patterns[pattern].innacuracy * 0.5f))  + (Mathf.Lerp(Patterns[pattern].BurstMinMaxAngle[0], Patterns[pattern].BurstMinMaxAngle[1], (float)q / ((float)Patterns[pattern].burstSize - 0.99f)) + Mathf.Lerp(Patterns[pattern].ShotMinMaxAngle[0], Patterns[pattern].ShotMinMaxAngle[1], (float)i / ((float)Patterns[pattern].shots - 0.99f)));
 
 
-            bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(Mathf.Cos((bullet.GetComponent<Rigidbody2D>().rotation + 90f) * Mathf.Deg2Rad) * fireForce, Mathf.Sin((bullet.GetComponent<Rigidbody2D>().rotation + 90f) * Mathf.Deg2Rad) * fireForce), ForceMode2D.Impulse);
+            bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(Mathf.Cos((bullet.GetComponent<Rigidbody2D>().rotation + 90f) * Mathf.Deg2Rad) * Patterns[pattern].fireForce, Mathf.Sin((bullet.GetComponent<Rigidbody2D>().rotation + 90f) * Mathf.Deg2Rad) * Patterns[pattern].fireForce), ForceMode2D.Impulse);
             bullet.GetComponent<Bullet>().player = false;
             //bullet.GetComponent<Bullet>().damage = 1;
             bullet.GetComponent<Bullet>().Owner = gameObject;
@@ -169,16 +182,16 @@ public class ShootingEnemy : BasicEnemy
             //bullet.GetComponent<Bullet>().enemytype = gameObject;
             } else {
                 //Debug.Log(((float)q / ((float)burstSize - 0f)) + "");
-                bullet.transform.eulerAngles = new Vector3(0, 0, bullet.transform.eulerAngles.z + UnityEngine.Random.Range(-1f * (innacuracy * 0.5f), (innacuracy * 0.5f)) + (Mathf.Lerp(BurstMinMaxAngle[0], BurstMinMaxAngle[1], (float)q / ((float)burstSize - 0.99f)) + Mathf.Lerp(ShotMinMaxAngle[0], ShotMinMaxAngle[1], (float)i / ((float)shots - 0.99f))));
+                bullet.transform.eulerAngles = new Vector3(0, 0, bullet.transform.eulerAngles.z + UnityEngine.Random.Range(-1f * (Patterns[pattern].innacuracy * 0.5f), (Patterns[pattern].innacuracy * 0.5f)) + (Mathf.Lerp(Patterns[pattern].BurstMinMaxAngle[0], Patterns[pattern].BurstMinMaxAngle[1], (float)q / ((float)Patterns[pattern].burstSize - 0.99f)) + Mathf.Lerp(Patterns[pattern].ShotMinMaxAngle[0], Patterns[pattern].ShotMinMaxAngle[1], (float)i / ((float)Patterns[pattern].shots - 0.99f))));
                 if(bullet.GetComponent<ConstantLazer>() != null){
                     bullet.GetComponent<ConstantLazer>().Owner = gameObject;
-                    bullet.GetComponent<ConstantLazer>().angleOffset = UnityEngine.Random.Range(-1f * (innacuracy * 0.5f), (innacuracy * 0.5f)) + (Mathf.Lerp(BurstMinMaxAngle[0], BurstMinMaxAngle[1], (float)q / ((float)burstSize - 0.99f)) + Mathf.Lerp(ShotMinMaxAngle[0], ShotMinMaxAngle[1], (float)i / ((float)shots - 0.99f)));
+                    bullet.GetComponent<ConstantLazer>().angleOffset = UnityEngine.Random.Range(-1f * (Patterns[pattern].innacuracy * 0.5f), (Patterns[pattern].innacuracy * 0.5f)) + (Mathf.Lerp(Patterns[pattern].BurstMinMaxAngle[0], Patterns[pattern].BurstMinMaxAngle[1], (float)q / ((float)Patterns[pattern].burstSize - 0.99f)) + Mathf.Lerp(Patterns[pattern].ShotMinMaxAngle[0], Patterns[pattern].ShotMinMaxAngle[1], (float)i / ((float)Patterns[pattern].shots - 0.99f)));
                 }
                 //waitaftershooting = 75;
                 //rb.linearVelocity = new Vector2(0, 0);
             }
             }
-            yield return new WaitForSeconds(BurstSpeed / speedMult);
+            yield return new WaitForSeconds(Patterns[pattern].BurstSpeed / speedMult);
         }
     }
 
