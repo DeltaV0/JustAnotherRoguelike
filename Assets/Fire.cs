@@ -30,6 +30,7 @@ public class Fire : MonoBehaviour
         {
             if(Owner != null && Owner.GetComponent<EnemyIdentifier>() != null)
             {
+                Owner.GetComponent<EnemyIdentifier>().AI.Slow(PlayerStats.me.BulletSlow);
                 Owner.GetComponent<EnemyIdentifier>().AI.Burning = true;
                 Owner.GetComponent<EnemyIdentifier>().AI.health -= Damage;
                 GameObject a = Instantiate(Prefabs.me.Misc[3], Owner.transform.position, Quaternion.identity);

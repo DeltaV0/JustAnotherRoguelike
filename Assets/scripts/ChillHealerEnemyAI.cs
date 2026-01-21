@@ -19,6 +19,7 @@ public class ChillHealerEnemyAI : BasicEnemy
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        speedMult = 1f;
         AIType = Random.Range(0, 3);
         TemplatesRooms.me.player.enemiesInRoom.Add(this);
         maxHealth *= Random.Range(0.95f, 1f + (((float)PlayerStats.me.Level - 1f )/ 3f));

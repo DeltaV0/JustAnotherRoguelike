@@ -28,6 +28,9 @@ public class Explosion : MonoBehaviour
             if(!alreadyHit.Contains(col.transform.root.gameObject)){
             if(col.CompareTag("Enemy")){
                 alreadyHit.Add(col.transform.root.gameObject);
+
+                col.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.Stun(PlayerStats.me.StunTimer);
+                col.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.Slow(PlayerStats.me.BulletSlow);
                 col.transform.root.gameObject.GetComponent<Rigidbody2D>().linearVelocity += (Vector2)(col.transform.root.position - transform.position).normalized * Power;
                 col.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.health -= Power;
                 col.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.aud.PlayOneShot(col.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.audio[1], 0.25f);

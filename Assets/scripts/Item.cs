@@ -1,6 +1,8 @@
 using UnityEngine;
 using TMPro;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Item : MonoBehaviour
 {
@@ -41,6 +43,19 @@ public class Item : MonoBehaviour
 
     public TMP_Text[] text;
 
+    public Collider2D[] collider;
+
+    public Color[] colours;
+
+    public Material LineMat;
+
+    public List<GameObject> rederobjs = new List<GameObject>();
+    public List<LineRenderer> Drawers = new List<LineRenderer>();
+
+    public Vector3[] selectorPositions;
+
+    public LineRenderer SelectorLine;
+
     //private bool Correct;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -70,17 +85,93 @@ public class Item : MonoBehaviour
             Destroy(gameObject);
         }
         TemplatesRooms.me.itemsInWorld.Add(ID);
+        InitVectorDrawers();
+        selectorPositions[0] = new Vector3(-0.25f, 0.25f, 0f) + transform.position;
+        selectorPositions[1] = new Vector3(0.25f, 0.25f, 0f) + transform.position;
+        selectorPositions[2] = new Vector3(0.25f, -0.25f, 0f) + transform.position;
+        selectorPositions[3] = new Vector3(-0.25f, -0.25f, 0f) + transform.position;
+    }
+
+    public void InitVectorDrawers()
+    {
+        for(int p = 0; p < collider.Length; p++){
+        PhysicsShapeGroup2D phys = new PhysicsShapeGroup2D();
+        collider[p].GetShapes(phys);
+        for(int i = 0; i < phys.shapeCount; i++)
+        {
+            //List<Vector2> vectors2 = new List<Vector2>();
+            //phys.GetShapeVertices(i, vectors2);
+            //vectors.AddRange(vectors2);
+            GameObject g = new GameObject();
+            rederobjs.Add(g);
+            g.transform.parent = transform;
+            
+            LineRenderer lr = g.AddComponent(typeof(LineRenderer)) as LineRenderer;
+            lr.widthMultiplier = 0.05f;
+            lr.material = LineMat;
+            if(p == collider.Length - 1){
+                lr.loop = true;
+            } else {
+                lr.loop = false;
+            }
+            
+            Drawers.Add(lr);
+            
+        }
+        }
+    }
+
+    public void RenderLines()
+    {
+        for(int i = 0; i < 4; i++){
+            SelectorLine.SetPosition(i, selectorPositions[i]);
+        }
+        for(int p = 0; p < collider.Length; p++){
+        PhysicsShapeGroup2D phys = new PhysicsShapeGroup2D();
+        collider[p].GetShapes(phys);
+        Vector2 xAxis = new Vector2(Mathf.Cos(transform.eulerAngles.z * Mathf.Deg2Rad), Mathf.Sin(transform.eulerAngles.z * Mathf.Deg2Rad));
+        Vector2 yAxis = new Vector2(-1 * xAxis.y, xAxis.x);
+        //List<Vector2> vectors = new List<Vector2>();
+        //for(int i = 0; i < collider.Length; i++)
+        //{
+            List<Vector2> vectors2 = new List<Vector2>();
+            phys.GetShapeVertices(0, vectors2);
+            Drawers[p].positionCount = vectors2.Count;
+            Drawers[p].endColor = colours[p];
+            Drawers[p].startColor = colours[p];
+            Drawers[p].sortingOrder = 3 + p;
+            for(int q = 0; q < vectors2.Count; q++)
+            {
+            Drawers[p].SetPosition(q, new Vector3(vectors2[q].x * xAxis.x + vectors2[q].y *yAxis.x,vectors2[q].x * xAxis.y + vectors2[q].y*yAxis.y,0));
+            }
+            
+        //}
+        }
+        
+        //outlineRenderer.loop = true;
+        
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        RenderLines();
         if(TemplatesRooms.me.player != null && Vector3.Distance(transform.position, TemplatesRooms.me.player.transform.position) < 3){
             TemplatesRooms.me.ItemLookingAt = transform;
             TemplatesRooms.me.LookingAtItem = true;
+            selectorPositions[0] = Vector3.Lerp(selectorPositions[0], new Vector3(-2f, 2f, 0f) + transform.position, 0.01f);
+            selectorPositions[1] = Vector3.Lerp(selectorPositions[1], new Vector3(2f, 2f, 0f) + transform.position, 0.01f);
+            selectorPositions[2] = Vector3.Lerp(selectorPositions[2], new Vector3(2f, -2f, 0f) + transform.position, 0.01f);
+            selectorPositions[3] = Vector3.Lerp(selectorPositions[3], new Vector3(-2f, -2f, 0f) + transform.position, 0.01f);
+            
             //Interactible.SetActive(true);
             
         } else {
+            selectorPositions[0] = Vector3.Lerp(selectorPositions[0], new Vector3(-0.25f, 0.25f, 0f) + transform.position, 0.01f);
+            selectorPositions[1] = Vector3.Lerp(selectorPositions[1], new Vector3(0.25f, 0.25f, 0f) + transform.position, 0.01f);
+            selectorPositions[2] = Vector3.Lerp(selectorPositions[2], new Vector3(0.25f, -0.25f, 0f) + transform.position, 0.01f);
+            selectorPositions[3] = Vector3.Lerp(selectorPositions[3], new Vector3(-0.25f, -0.25f, 0f) + transform.position, 0.01f);
             if(TemplatesRooms.me.ItemLookingAt == transform){
             TemplatesRooms.me.LookingAtItem = false;
             }

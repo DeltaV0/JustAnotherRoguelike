@@ -181,7 +181,7 @@ public class Room : MonoBehaviour
                 StartCoroutine(SpawnEnemies());
             } else if(RoomType == 10){
                 for(int i = -1; i < 2; i++){
-                    GameObject e = Instantiate(Prefabs.me.Items[UnityEngine.Random.Range(0, Prefabs.me.Items.Length)], transform.position + new Vector3(i * 5, 0, 0), Quaternion.identity);
+                    GameObject e = Instantiate(Prefabs.me.Misc[0], transform.position + new Vector3(i * 5, 0, 0), Quaternion.identity);
                     e.transform.parent = TemplatesRooms.me.roomHolder;
                 }
             } else if(exitRoom){

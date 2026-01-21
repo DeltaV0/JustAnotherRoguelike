@@ -35,6 +35,8 @@ public class Acid : MonoBehaviour
         if(other.CompareTag("Enemy")){
                 //col.transform.gameObject.GetComponent<Rigidbody2D>().linearVelocity += (Vector2)(col.transform.root.position - transform.position).normalized * Power;
                 other.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.health -= Power;
+                //hitEnemy.AI.Stun(PlayerStats.me.StunTimer);
+                other.transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.Slow(PlayerStats.me.BulletSlow);
                 GameObject a = Instantiate(Prefabs.me.Misc[3], other.transform.position, Quaternion.identity);
                 a.GetComponent<HealthChangeText>().Activate(-1 * Power);
                 if(PlayerActivated && PlayerStats.me.Zaplevel > 0){

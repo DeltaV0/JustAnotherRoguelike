@@ -198,6 +198,7 @@ public class Player : MonoBehaviour
         if (collision.collider.CompareTag("Coin"))
         {
             stats.Money++;
+            collision.gameObject.GetComponent<CoinPull>().Collect();
             Destroy(collision.gameObject);
         }
     }

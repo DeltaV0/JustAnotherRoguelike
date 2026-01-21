@@ -42,6 +42,8 @@ public class Lightning : MonoBehaviour
                     prevHit.Add(cols[q].transform.root.gameObject);
                     prevHitPos.Add(transform.position);
                     if(cols[q].transform.root.gameObject != null && cols[q].transform.root.gameObject.GetComponent<EnemyIdentifier>() != null){
+                        cols[q].transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.Stun(PlayerStats.me.StunTimer);
+                        cols[q].transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.Slow(PlayerStats.me.BulletSlow);
                         cols[q].transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.health -= Damage;
                         cols[q].transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.aud.PlayOneShot( cols[q].transform.root.gameObject.GetComponent<EnemyIdentifier>().AI.audio[1], 0.25f);
                         GameObject a = Instantiate(Prefabs.me.Misc[3], cols[q].transform.root.position, Quaternion.identity);
