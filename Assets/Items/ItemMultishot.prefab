@@ -894,6 +894,11 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
+  selectorPositionsBezier:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
   SelectorLine: {fileID: 6140634104788282672}
 --- !u!120 &6140634104788282672
 LineRenderer:

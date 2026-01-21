@@ -196,8 +196,8 @@ MonoBehaviour:
   priceInflation: 6
   sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   Requirement: 0
-  DisableOnPurchase: 0
-  unique: 0
+  DisableOnPurchase: 14
+  unique: 1
   effects:
   - HardCoded: 0
     stat: 0
@@ -226,6 +226,11 @@ MonoBehaviour:
   rederobjs: []
   Drawers: []
   selectorPositions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  selectorPositionsBezier:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}

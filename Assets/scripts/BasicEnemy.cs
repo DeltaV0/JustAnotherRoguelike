@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -77,11 +78,13 @@ public class BasicEnemy : MonoBehaviour
 
     public void InitVectorDrawers()
     {
+        //PhysicsShapeGroup2D phys = new PhysicsShapeGroup2D();
         for(int p = 0; p < collider.Length; p++){
-        PhysicsShapeGroup2D phys = new PhysicsShapeGroup2D();
-        collider[p].GetShapes(phys);
-        for(int i = 0; i < phys.shapeCount; i++)
-        {
+        
+        //try{
+        //collider[p].GetShapes(phys);
+       // for(int i = 0; i < phys.shapeCount; i++)
+        //{
             //List<Vector2> vectors2 = new List<Vector2>();
             //phys.GetShapeVertices(i, vectors2);
             //vectors.AddRange(vectors2);
@@ -95,14 +98,19 @@ public class BasicEnemy : MonoBehaviour
             lr.loop = true;
             Drawers.Add(lr);
             
-        }
+        //}
+        //} catch(Exception e)
+            //{
+            //    Debug.LogWarning("Whoops, Something broke (again): " + e.Message, this);
+            //}
         }
     }
 
     public void RenderLines()
     {
-        for(int p = 0; p < collider.Length; p++){
         PhysicsShapeGroup2D phys = new PhysicsShapeGroup2D();
+        for(int p = 0; p < collider.Length; p++){
+        
         collider[p].GetShapes(phys);
         Vector2 xAxis = new Vector2(Mathf.Cos(rb.rotation * Mathf.Deg2Rad), Mathf.Sin(rb.rotation * Mathf.Deg2Rad));
         Vector2 yAxis = new Vector2(-1 * xAxis.y, xAxis.x);

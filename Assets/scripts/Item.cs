@@ -54,6 +54,8 @@ public class Item : MonoBehaviour
 
     public Vector3[] selectorPositions;
 
+    public Vector3[] selectorPositionsBezier;
+
     public LineRenderer SelectorLine;
 
     //private bool Correct;
@@ -90,15 +92,22 @@ public class Item : MonoBehaviour
         selectorPositions[1] = new Vector3(0.25f, 0.25f, 0f) + transform.position;
         selectorPositions[2] = new Vector3(0.25f, -0.25f, 0f) + transform.position;
         selectorPositions[3] = new Vector3(-0.25f, -0.25f, 0f) + transform.position;
+
+        selectorPositionsBezier[0] = new Vector3(-2f, 2f, 0f) + transform.position;
+        selectorPositionsBezier[1] = new Vector3(2f, 2f, 0f) + transform.position;
+        selectorPositionsBezier[2] = new Vector3(2f, -2f, 0f) + transform.position;
+        selectorPositionsBezier[3] = new Vector3(-2f, -2f, 0f) + transform.position;
     }
 
     public void InitVectorDrawers()
     {
+        //PhysicsShapeGroup2D phys = new PhysicsShapeGroup2D();
         for(int p = 0; p < collider.Length; p++){
-        PhysicsShapeGroup2D phys = new PhysicsShapeGroup2D();
-        collider[p].GetShapes(phys);
-        for(int i = 0; i < phys.shapeCount; i++)
-        {
+        
+        //try{
+        //collider[p].GetShapes(phys);
+        //for(int i = 0; i < phys.shapeCount; i++)
+        //{
             //List<Vector2> vectors2 = new List<Vector2>();
             //phys.GetShapeVertices(i, vectors2);
             //vectors.AddRange(vectors2);
@@ -117,7 +126,11 @@ public class Item : MonoBehaviour
             
             Drawers.Add(lr);
             
-        }
+        //}
+        //} catch(Exception e)
+            //{
+            //    Debug.LogWarning("Whoops, Something broke (again): " + e.Message, this);
+           // }
         }
     }
 
@@ -126,8 +139,9 @@ public class Item : MonoBehaviour
         for(int i = 0; i < 4; i++){
             SelectorLine.SetPosition(i, selectorPositions[i]);
         }
-        for(int p = 0; p < collider.Length; p++){
         PhysicsShapeGroup2D phys = new PhysicsShapeGroup2D();
+        for(int p = 0; p < collider.Length; p++){
+        
         collider[p].GetShapes(phys);
         Vector2 xAxis = new Vector2(Mathf.Cos(transform.eulerAngles.z * Mathf.Deg2Rad), Mathf.Sin(transform.eulerAngles.z * Mathf.Deg2Rad));
         Vector2 yAxis = new Vector2(-1 * xAxis.y, xAxis.x);
@@ -160,10 +174,15 @@ public class Item : MonoBehaviour
         if(TemplatesRooms.me.player != null && Vector3.Distance(transform.position, TemplatesRooms.me.player.transform.position) < 3){
             TemplatesRooms.me.ItemLookingAt = transform;
             TemplatesRooms.me.LookingAtItem = true;
-            selectorPositions[0] = Vector3.Lerp(selectorPositions[0], new Vector3(-2f, 2f, 0f) + transform.position, 0.01f);
-            selectorPositions[1] = Vector3.Lerp(selectorPositions[1], new Vector3(2f, 2f, 0f) + transform.position, 0.01f);
-            selectorPositions[2] = Vector3.Lerp(selectorPositions[2], new Vector3(2f, -2f, 0f) + transform.position, 0.01f);
-            selectorPositions[3] = Vector3.Lerp(selectorPositions[3], new Vector3(-2f, -2f, 0f) + transform.position, 0.01f);
+            selectorPositions[0] = Vector3.Lerp(selectorPositions[0], selectorPositionsBezier[0] + transform.position, 0.01f);
+            selectorPositions[1] = Vector3.Lerp(selectorPositions[1], selectorPositionsBezier[1] + transform.position, 0.01f);
+            selectorPositions[2] = Vector3.Lerp(selectorPositions[2], selectorPositionsBezier[2] + transform.position, 0.01f);
+            selectorPositions[3] = Vector3.Lerp(selectorPositions[3], selectorPositionsBezier[3] + transform.position, 0.01f);
+
+            selectorPositionsBezier[0] = Vector3.Lerp(selectorPositionsBezier[0], new Vector3(2, 2, 0), 0.01f);
+            selectorPositionsBezier[1] = Vector3.Lerp(selectorPositionsBezier[1], new Vector3(2, -2, 0), 0.01f);
+            selectorPositionsBezier[2] = Vector3.Lerp(selectorPositionsBezier[2], new Vector3(-2, -2, 0), 0.01f);
+            selectorPositionsBezier[3] = Vector3.Lerp(selectorPositionsBezier[3], new Vector3(-2, 2, 0), 0.01f);
             
             //Interactible.SetActive(true);
             
@@ -172,6 +191,11 @@ public class Item : MonoBehaviour
             selectorPositions[1] = Vector3.Lerp(selectorPositions[1], new Vector3(0.25f, 0.25f, 0f) + transform.position, 0.01f);
             selectorPositions[2] = Vector3.Lerp(selectorPositions[2], new Vector3(0.25f, -0.25f, 0f) + transform.position, 0.01f);
             selectorPositions[3] = Vector3.Lerp(selectorPositions[3], new Vector3(-0.25f, -0.25f, 0f) + transform.position, 0.01f);
+
+            selectorPositionsBezier[0] = Vector3.Lerp(selectorPositionsBezier[0], new Vector3(-2, 2, 0), 0.01f);
+            selectorPositionsBezier[1] = Vector3.Lerp(selectorPositionsBezier[1], new Vector3(2, 2, 0), 0.01f);
+            selectorPositionsBezier[2] = Vector3.Lerp(selectorPositionsBezier[2], new Vector3(2, -2, 0), 0.01f);
+            selectorPositionsBezier[3] = Vector3.Lerp(selectorPositionsBezier[3], new Vector3(-2, -2, 0), 0.01f);
             if(TemplatesRooms.me.ItemLookingAt == transform){
             TemplatesRooms.me.LookingAtItem = false;
             }
