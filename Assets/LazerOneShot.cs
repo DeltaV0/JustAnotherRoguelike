@@ -26,7 +26,7 @@ public class LazerOneShot : MonoBehaviour
     IEnumerator Shoot(){
         RaycastHit2D hit; 
         hit = Physics2D.Raycast(transform.position, transform.up,25f, LayerMask.GetMask("Wall"));
-        Debug.Log(hit.point + " " + transform.position);
+        //Debug.Log(hit.point + " " + transform.position);
         gos[1].positionCount = 25;
         gos[0].SetPosition(0, transform.position);
         gos[1].SetPosition(0, transform.position);

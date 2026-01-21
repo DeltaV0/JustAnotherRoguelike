@@ -552,6 +552,8 @@ MonoBehaviour:
   - {fileID: 4059438720525423569, guid: d5b2ac6a2e072a24fb79db321f88f23e, type: 3}
   - {fileID: 685020157620396490, guid: 92aca4f038d089d4eb5d769acb51aee1, type: 3}
   - {fileID: 2994315452697709996, guid: 9992b624d5bba8544899a02d670bf416, type: 3}
+  - {fileID: 7655031439277251571, guid: 035c67ff6ac86184696d595511082055, type: 3}
+  - {fileID: 5056358252858292162, guid: 815e0952dc546ee45927546308a0bae4, type: 3}
   enemyDeath:
   - {fileID: 8930378736774318510, guid: 31262f46a8e5f8b4a8aab4767b18914e, type: 3}
   additions:

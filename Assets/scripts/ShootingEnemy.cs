@@ -200,7 +200,7 @@ public class ShootingEnemy : BasicEnemy
             aimDirectionP = new Vector3(transform.root.position.x, transform.root.position.y, 0) - TemplatesRooms.me.player.transform.position - (Vector3)(TemplatesRooms.me.player.rb.linearVelocity * 0.75f * (Vector3.Distance(transform.position, TemplatesRooms.me.player.transform.position) * 0.1f) );
 
         } else {
-            Debug.Log("blind");
+           // Debug.Log("blind");
             if(agent.path.corners.Length > 1){
                 aimDirectionP = new Vector3(transform.root.position.x, transform.root.position.y, 0) - (Vector3)agent.path.corners[1];
             }
