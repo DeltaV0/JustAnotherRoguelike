@@ -998,7 +998,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Slow
-  desc: +10% bullet slow, +0.5s reload
+  desc: +20% bullet slow, +0.5s reload
   ID: 16
   price: 0
   basePrice: 4
@@ -1015,7 +1015,7 @@ MonoBehaviour:
   - HardCoded: 0
     stat: 18
     ADD: 0
-    MULT: -0.1
+    MULT: -0.2
   spr: {fileID: 9120782547013869602}
   text:
   - {fileID: 4881386123116130098}

@@ -87,9 +87,9 @@ public class PlayerStats : MonoBehaviour
         } else if(ID == 16){
             Zaplevel = (int)((Zaplevel * mult) + add);
         } else if(ID == 17){
-            StunTimer = (int)((StunTimer * mult) + add);
+            StunTimer = ((StunTimer * mult) + add);
         } else if(ID == 18){
-            BulletSlow = (int)((BulletSlow * mult) + add);
+            BulletSlow = ((BulletSlow * mult) + add);
         }
     }
 
