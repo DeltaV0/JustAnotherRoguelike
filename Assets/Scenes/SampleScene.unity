@@ -447,13 +447,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxReload: 100
   MaxHealth: 10
-  MoveSpeed: 5.5
+  MoveSpeed: 6
   FireSpeed: 22
   DashCooldown: 50
   Money: 0
   homingPower: 0
   shots: 1
-  inaccuracy: 4
+  inaccuracy: 1
   bulletSpeed: 20
   MaxAmmo: 6
   Damage: 1
@@ -1081,6 +1081,7 @@ MonoBehaviour:
   Overview: 0
   WorldMap: 0
   campos: {x: 0, y: 0, z: 0}
+  shake: 0
 --- !u!114 &519420034
 MonoBehaviour:
   m_ObjectHideFlags: 0

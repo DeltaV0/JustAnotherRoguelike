@@ -4948,6 +4948,10 @@ MonoBehaviour:
   aud: {fileID: 0}
   audio: []
   explosionPF: {fileID: 0}
+  explosionLevel: 0
+  explosionPower: 0
+  acidLevel: 0
+  fireLevel: 0
 --- !u!61 &7046649820604954822
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4993,7 +4997,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_EdgeRadius: 0.05
 --- !u!50 &6897707564853811464
 Rigidbody2D:
   serializedVersion: 5

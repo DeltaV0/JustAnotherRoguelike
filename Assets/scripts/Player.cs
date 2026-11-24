@@ -47,8 +47,14 @@ public class Player : MonoBehaviour
 
     public AudioClip[] audio;
 
+    public Collider2D LOScol;
+
     public Image Black;
     public Image ImpactFrame;
+
+    public List<Bullet> PlayerBullets = new List<Bullet>();
+
+    //public LineRenderer LOSline;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -68,7 +74,8 @@ public class Player : MonoBehaviour
     void Update(){
         UpdateStats();
         if(!CameraMover.me.WorldMap && !PauseManager.me.paused){
-        
+        //LOSline.SetPosition(0, transform.position);
+        //LOSline.SetPosition(1, Camera.main.ScreenToWorldPoint(Input.mousePosition));
         if(ammo <= 0){
             ammo = stats.MaxAmmo;
             ReloadTimer = stats.MaxReload;
@@ -79,7 +86,7 @@ public class Player : MonoBehaviour
             aud.pitch = Random.Range(0.8f, 1.2f);
             aud.PlayOneShot(audio[0], 0.3f);
             timer = stats.FireSpeed;
-
+            rb.linearVelocity += (new Vector2(transform.position.x, transform.position.y) - (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition)) * stats.Damage * 1f;
             for (int i = 0; i < shots; i++) {
             ammo--;
             GameObject bullet = (GameObject)Instantiate(bulletPrefab, transform.position, transform.rotation);
@@ -101,6 +108,8 @@ public class Player : MonoBehaviour
             bullet.GetComponent<Bullet>().explosionPower = stats.explosionPower;
             bullet.GetComponent<Bullet>().fireLevel = stats.FireLength;
             bullet.GetComponent<Bullet>().Owner = gameObject;
+
+            PlayerBullets.Add(bullet.GetComponent<Bullet>());
             //bullet.GetComponent<Bullet>().flaming = burningBullets;
             //bullet.GetComponent<Bullet>().enemytype = gameObject;
             }
@@ -123,7 +132,10 @@ public class Player : MonoBehaviour
 
     public void Hurt(float d){
         health -= d;
+        CameraMover.me.shake += d * 0.25f;
+        if(d > 0.25f){
         StartCoroutine(ouch(d));
+        }
         
 
     }

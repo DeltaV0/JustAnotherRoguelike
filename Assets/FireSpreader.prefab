@@ -49,6 +49,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Owner: {fileID: 0}
   parts: {fileID: 681354634223494641}
+  Damage: 0
+  FireLength: 0
 --- !u!58 &1896043620324588403
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -94,7 +96,7 @@ ParticleSystem:
   m_GameObject: {fileID: 7283957395285698490}
   serializedVersion: 8
   lengthInSec: 5
-  simulationSpeed: 1
+  simulationSpeed: 5
   stopAction: 2
   cullingMode: 0
   ringBufferMode: 0
@@ -168,7 +170,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 3
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -803,7 +805,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.0001
+      value: 0.5
       mode: 0
       spread: 0
       speed:
@@ -2024,7 +2026,7 @@ ParticleSystem:
     radial:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1
+      scalar: 0.5
       minScalar: 0
       maxCurve:
         serializedVersion: 2

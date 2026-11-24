@@ -11,6 +11,8 @@ public class CameraMover : MonoBehaviour
     public bool WorldMap;
 
     public Vector3 campos;
+
+    public float shake;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -53,8 +55,8 @@ public class CameraMover : MonoBehaviour
                 transform.position = Vector3.Lerp(transform.position, Vector3.Lerp(TemplatesRooms.me.ItemLookingAt.position, Vector3.Lerp(new Vector3(TemplatesRooms.me.player.transform.position.x, TemplatesRooms.me.player.transform.position.y, -10f), (Vector3)Camera.main.ScreenToWorldPoint(Input.mousePosition), 0.25f), 0.25f), 0.1f);
                 cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 5f, 0.1f);
             } else {
-            transform.position = Vector3.Lerp(transform.position, Vector3.Lerp(new Vector3(TemplatesRooms.me.player.currentRoom.transform.position.x, TemplatesRooms.me.player.currentRoom.transform.position.y, -10f), Vector3.Lerp(new Vector3(TemplatesRooms.me.player.transform.position.x, TemplatesRooms.me.player.transform.position.y, -10f), (Vector3)Camera.main.ScreenToWorldPoint(Input.mousePosition), 0.25f), 0.5f), 0.1f);
-            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 7f, 0.1f);
+            transform.position = Vector3.Lerp(transform.position, Vector3.Lerp(new Vector3(TemplatesRooms.me.player.currentRoom.transform.position.x, TemplatesRooms.me.player.currentRoom.transform.position.y, -10f), Vector3.Lerp(new Vector3(TemplatesRooms.me.player.transform.position.x, TemplatesRooms.me.player.transform.position.y, -10f), (Vector3)Camera.main.ScreenToWorldPoint(Input.mousePosition), 0.25f), 0.1f), 0.1f);
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, 8f, 0.1f);
             }
             campos = transform.position;
         } else {
@@ -62,6 +64,8 @@ public class CameraMover : MonoBehaviour
             cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, GetFarthestRoom() + 8f, 0.1f);
             campos = transform.position;
         }
+        transform.position += (Vector3)Random.insideUnitCircle * shake;
+        shake *= 0.9f;
     }
 
     public float GetFarthestRoom(){

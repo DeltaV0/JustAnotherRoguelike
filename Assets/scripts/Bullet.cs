@@ -177,10 +177,12 @@ public class Bullet : MonoBehaviour
 
     public void SpawnExplosion(){
         GameObject g = Instantiate(Prefabs.me.PlaceableThings[0], transform.position, Quaternion.identity);
+        
         g.transform.parent = TemplatesRooms.me.roomHolder;
         g.GetComponent<Explosion>().Power = damage * explosionPower;
         g.GetComponent<Explosion>().Radius = damage * 0.1f + explosionLevel;
         g.GetComponent<Explosion>().PlayerActivated = player;
+        CameraMover.me.shake += g.GetComponent<Explosion>().Power * 0.25f;
         g.GetComponent<Explosion>().Boom();
        // aud.pitch = Random.Range(0.8f, 1.2f);
         //    aud.PlayOneShot(audio[1], 0.1f);
@@ -212,6 +214,10 @@ public class Bullet : MonoBehaviour
                 trail.Stop();
                     trail.transform.parent = TemplatesRooms.me.roomHolder;
                     trail.transform.localScale = new Vector3(1, 1, 1);
+                    if (player)
+                {
+                    TemplatesRooms.me.player.PlayerBullets.Remove(this);
+                }
                 Destroy(gameObject);
             } else {
                 
@@ -219,6 +225,7 @@ public class Bullet : MonoBehaviour
                 rb.linearVelocity = Vector2.Reflect(collision.relativeVelocity.normalized, collision.GetContact(0).normal.normalized) * initVel * -1;
                 InvFrames = 1;
             }
+            
             
         }
         else if (player)
@@ -234,7 +241,7 @@ public class Bullet : MonoBehaviour
                     trail.Stop();
                     trail.transform.parent = TemplatesRooms.me.roomHolder;
                     trail.transform.localScale = new Vector3(1, 1, 1);
-
+                TemplatesRooms.me.player.PlayerBullets.Remove(this);
                 Destroy(gameObject);
                 } else {
                 bnce = true;
@@ -249,7 +256,7 @@ public class Bullet : MonoBehaviour
                     trail.Stop();
                     trail.transform.parent = TemplatesRooms.me.roomHolder;
                     trail.transform.localScale = new Vector3(1, 1, 1);
-
+                    TemplatesRooms.me.player.PlayerBullets.Remove(this);
                     Destroy(gameObject);
                 } else {
                 bnce = true;

@@ -13,7 +13,7 @@ public class ShootingEnemy : BasicEnemy
 
     
 
-    
+    public bool smart;
 
     
 
@@ -253,6 +253,20 @@ public class ShootingEnemy : BasicEnemy
             AItimer--;
         }
         }
-        rb.linearVelocity = Vector3.Lerp((Vector3)rb.linearVelocity, (agent.desiredVelocity * (Stunned ? 0f : 1f)) * speedMult, 0.05f);
+        Vector3 GoalVelocity = agent.desiredVelocity;
+        if (true)
+        {
+            Vector3 closP = TemplatesRooms.me.player.LOScol.ClosestPoint(transform.position);
+            Vector3 p = (transform.position - closP).normalized / ((transform.position - closP).sqrMagnitude + 1);
+            GoalVelocity += p * 5f;
+
+            for(int i = 0; i <TemplatesRooms.me.player.PlayerBullets.Count; i++)
+            {
+                Vector3 closP2 = TemplatesRooms.me.player.PlayerBullets[i].transform.position;
+                Vector3 p2 = (transform.position - closP2).normalized / ((transform.position - closP2).sqrMagnitude + 0.5f);
+                GoalVelocity += p2 * 5f;
+            }
+        }
+        rb.linearVelocity = Vector3.Lerp((Vector3)rb.linearVelocity, GoalVelocity * speedMult * (Stunned ? 0f : 1f) * (health/maxHealth), 0.05f);
     }
 }

@@ -45,7 +45,7 @@ public class Room : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        budget = (2 * PlayerStats.me.Level) + UnityEngine.Random.Range(-1, PlayerStats.me.Level);
+        budget = (2 * PlayerStats.me.Level) + UnityEngine.Random.Range(-1, (int)(PlayerStats.me.Level * 1.25f));
         Visited = false;
         if(Obsticles.Length != 0){
         if(UnityEngine.Random.Range(0, 2) == 0){
@@ -143,8 +143,8 @@ public class Room : MonoBehaviour
                 bool placed = false;
                     Vector3 RandomPos;
                 while(!placed){
-                        RandomPos.x = UnityEngine.Random.Range(-10f, 10f);
-                        RandomPos.y = UnityEngine.Random.Range(-10f, 10f);
+                        RandomPos.x = UnityEngine.Random.Range(-7.5f, 7.5f);
+                        RandomPos.y = UnityEngine.Random.Range(-7.5f, 7.5f);
                         RandomPos.z = 0;
                         if(Physics2D.OverlapCircle(new Vector2(RandomPos.x, RandomPos.y) + (Vector2)transform.position, 0.75f, LayerMask.GetMask("Wall")) == null){
                             placed = true;
@@ -197,8 +197,8 @@ public class Room : MonoBehaviour
                     bool placed = false;
                     Vector3 RandomPos;
                     while(!placed){
-                        RandomPos.x = UnityEngine.Random.Range(-10f, 10f);
-                        RandomPos.y = UnityEngine.Random.Range(-10f, 10f);
+                        RandomPos.x = UnityEngine.Random.Range(-7.5f, 7.5f);
+                        RandomPos.y = UnityEngine.Random.Range(-7.5f, 7.5f);
                         RandomPos.z = 0;
                         if(Physics2D.OverlapCircle(new Vector2(RandomPos.x, RandomPos.y) + (Vector2)transform.position, 0.75f, LayerMask.GetMask("Wall")) == null){
                             placed = true;

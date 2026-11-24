@@ -2202,7 +2202,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_LocalScale: {x: 15, y: 15, z: 15}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1510200909322808668}
@@ -2248,6 +2248,7 @@ MonoBehaviour:
   budget: 0
   Obsticles: []
   Fog: {fileID: 6517365259301609552}
+  exitRoom: 0
 --- !u!114 &8742895326154220319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2466,7 +2467,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.25
+  m_VoxelSize: 0.33333334
   m_BuildHeightMesh: 0
   m_MinRegionArea: 0
   m_HideEditorLogs: 0

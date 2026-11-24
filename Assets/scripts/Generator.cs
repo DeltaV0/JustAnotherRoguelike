@@ -66,13 +66,13 @@ public class Generator : MonoBehaviour
             bool Overlap = false;
             int R = UnityEngine.Random.Range(0, 4);
             if(R == 0){
-                transform.position += new Vector3(0, 20, 0); //going up
+                transform.position += new Vector3(0, 15, 0); //going up
             } else if(R == 1){
-                transform.position += new Vector3(0, -20, 0); //going down
+                transform.position += new Vector3(0, -15, 0); //going down
             } else if(R == 2){
-                transform.position += new Vector3(20, 0, 0); //going right
+                transform.position += new Vector3(15, 0, 0); //going right
             } else if(R == 3){
-                transform.position += new Vector3(-20, 0, 0); //going left
+                transform.position += new Vector3(-15, 0, 0); //going left
             }
             CurrentPos = (Vector2)transform.position;
             foreach(Room r in Rooms){
